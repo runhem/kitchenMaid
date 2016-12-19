@@ -23,6 +23,7 @@
 	<state id="MoveOn" extends="Dialog">
 		<onentry>
 		<dialog:say>Now I'm reading the next step of the recipe</dialog:say>
+		<!--  Here we should get the recipe-step from some java-file -->
 		<goto state="Recipe"/>
 		</onentry>
 	</state>
@@ -41,7 +42,7 @@
 			<dialog:say>Now I'm reading the same step again</dialog:say>
 			<goto state="Recipe"/>
 		</onevent>
-		<onevent name="sense.user.speak" cond="event?:sem:question">
+		<onevent name="sense.user.speak" cond="event?:sem:recipe">
 			<goto state="Question"/>
 		</onevent>
 	</state>
@@ -69,8 +70,17 @@
 
 	<state id="Question" extends="Dialog">
 		<onentry>
-			<dialog:say>I understand you have a question?</dialog:say>
+			<dialog:say>Did I answer your question?</dialog:say>
+			<dialog:listen/>
 		</onentry>
+		<onevent name="sense.user.speak" cond="event?:sem:yes">
+			<dialog:say>Good, let me know when you are ready</dialog:say>
+			<goto state="Wait"/>
+		</onevent>
+		<onevent name="sense.user.speak" cond="event?:sem:recipe">
+			<dialog:say>Good, let me know when you are ready</dialog:say>
+			<goto state="Question"/>
+		</onevent>
 	</state>
 	
 	<state id="End">

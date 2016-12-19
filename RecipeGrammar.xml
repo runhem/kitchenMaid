@@ -26,9 +26,11 @@
 			</item>
 			<item>
 				<one-of>
-					<item>what</item>
+					<item>egg</item>
+					<item>2</item>
+					<item>cup</item>
 				</one-of>
-				<tag>out.question=1</tag>
+				<tag>out.recipe=1</tag>
 			</item>
 		</one-of>
   </rule>
