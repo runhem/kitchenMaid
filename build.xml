@@ -6,7 +6,7 @@
 			<arg value="/c"/>
 			<arg value="iristk"/>
 			<arg value="cflow"/>
-			<arg value="KitchenMaid.xml"/>
+			<arg value="RecipeFlow.xml"/>
 		</exec>
 	</target>
 	
