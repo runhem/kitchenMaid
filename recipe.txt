@@ -1,0 +1,19 @@
+Action;Measurement;Ingredient;Container
+Set the oven to; 200 degrees celsius
+Line a muffin tin with; 12; the paper liners
+Add; half a cup; yoghurt; large bowl
+Add; 3 tablespoons; Vegetable oil; large bowl
+Add; 1 tablespoon; Lemon juice; large bowl
+Add; 2; Egg white; large bowl
+Mix; all; the ingredients; large bowl
+Add; one and a half cup; Flour; small bowl
+Add; three quarters of a cup; Sugar; small bowl
+Add; 2 teaspoons; Baking powder; small bowl
+Add; one quarter of a teaspoon; Salt; small bowl
+Add; 1 teaspoon; Lemon zest; small bowl
+Mix the ingredients from the large and the small bowl together
+Stir in; 1 cup; Frozen raspberries; the batter
+Spoon batter evenly into the muffin cups
+Bake for; 15 to 17 minutes
+Take out when time is up or when the to springs back when lightly touched
+Cool muffins in the tin on a wire rack

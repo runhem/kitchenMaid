@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <flow name="RecipeFlow" package="iristk.app.kitchenMaid" 
-	initial="Start"	xmlns="iristk.flow" xmlns:p="iristk.flow.param" xmlns:dialog="iristk.flow.DialogFlow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	initial="Start"	
+	xmlns="iristk.flow" 
+	xmlns:p="iristk.flow.param"
+	 
+	xmlns:dialog="iristk.flow.DialogFlow" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="iristk.flow flow.xsd iristk.flow.DialogFlow DialogFlow.xsd">
+	<param name="instructions" type="InstructionSet"/>
 	
-	<var name="number" type="Integer"/>
-	<var name="guesses" type="Integer"/>
+	<var name="instruction" type="Instruction"/>
 	
-	<state id="Start">
+	
+	
+	
+	<state id="Start" extends="Dialog">
 		<onentry>
 			<dialog:say>Time to do some cool baking. Are you ready?</dialog:say>
 			<dialog:listen/>
@@ -23,6 +31,9 @@
 	<state id="MoveOn" extends="Dialog">
 		<onentry>
 		<dialog:say>Now I'm reading the next step of the recipe</dialog:say>
+		<dialog:say>Here comes the next instruction</dialog:say>
+		<exec>instruction = instructions.next();</exec>
+		<dialog:say text="instruction.getFullInstruction()"/>
 		<goto state="Recipe"/>
 		</onentry>
 	</state>
@@ -45,12 +56,13 @@
 			<goto state="Question"/>
 		</onevent>
 	</state>
+
 	
 	<state id="Wait" extends="Dialog">
 	<onentry>
 		<dialog:listen/>
 	</onentry>
-	<onevent name="sense.user.speak" cond="event?:sem:ready">
+	<onevent name="sense.user.speak" cond="event?:sem:yes">
 		<dialog:say>Good, lets move on</dialog:say>
 		<goto state="MoveOn"/>
 	</onevent>
