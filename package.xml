@@ -1,6 +1,6 @@
-<package name="guess">
+<package name="kitchenMaid">
 	<run>
-		<command name="guess" class="iristk.app.guess.GuessSystem"/>
+		<command name="guess" class="iristk.app.kitchenMaid.RecipeSystem"/>
 	</run>
 	<classpath>
 		<src path="src" output="bin"/>
