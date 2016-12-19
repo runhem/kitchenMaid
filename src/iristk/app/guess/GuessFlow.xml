@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<flow name="GuessFlow" package="iristk.app.guess" 
+	initial="Start"	xmlns="iristk.flow" xmlns:p="iristk.flow.param" xmlns:dialog="iristk.flow.DialogFlow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="iristk.flow flow.xsd iristk.flow.DialogFlow DialogFlow.xsd">
+	
+	<var name="number" type="Integer"/>
+	<var name="guesses" type="Integer"/>
+	
+	<state id="Start">
+		<onentry>
+			<dialog:say>Time to do some cool baking. Are you ready?</dialog:say>
+			<dialog:listen/>
+		</onentry>
+		<onevent name="sense.user.speak" cond="event?:sem:yes">
+			<dialog:say>Cool.</dialog:say>
+			<goto state="MoveOn"/>				
+		</onevent>
+		<onevent name="sense.user.speak" cond="event?:sem:no">
+			<goto state="End"/>	
+		</onevent>
+	</state>
+	
+	<state id="MoveOn" extends="Dialog">
+		<onentry>
+		<dialog:say>Now I'm reading the next step of the recipe</dialog:say>
+		<goto state="Recipe"/>
+		</onentry>
+	</state>
+	
+	<state id="Recipe" extends="Dialog">
+		<onentry>
+			<dialog:say>Did you understand the step?</dialog:say>
+			<dialog:listen/>
+		</onentry>
+		<onevent name="sense.user.speak" cond="event?:sem:yes">
+			<dialog:say>Good, let me know when you are ready</dialog:say>
+			<goto state="Wait"/>
+		</onevent>
+		<onevent name="sense.user.speak" cond="event?:sem:no">
+			<dialog:say>Okey, let me repeat</dialog:say>
+			<dialog:say>Now I'm reading the same step again</dialog:say>
+			<goto state="Recipe"/>
+		</onevent>
+		<onevent name="sense.user.speak" cond="event?:sem:question">
+			<goto state="Question"/>
+		</onevent>
+	</state>
+	
+	<state id="Wait" extends="Dialog">
+	<onentry>
+		<dialog:listen/>
+	</onentry>
+	<onevent name="sense.user.speak" cond="event?:sem:ready">
+		<dialog:say>Good, lets move on</dialog:say>
+		<goto state="MoveOn"/>
+	</onevent>
+	</state>
+	
+	<state id="Dialog">
+		<onevent name="sense.user.silence">
+			<dialog:say>I am sorry, I didn't hear anything.</dialog:say>
+			<reentry/>
+		</onevent>
+		<onevent name="sense.user.speak">
+			<dialog:say>I am sorry, I didn't get that.</dialog:say>
+			<reentry/>
+		</onevent>
+	</state>
+
+	<state id="Question" extends="Dialog">
+		<onentry>
+			<dialog:say>I understand you have a question?</dialog:say>
+		</onentry>
+	</state>
+	
+	<state id="End">
+		<onentry>
+		<dialog:say>Okay, goodbye</dialog:say>
+		<exec>System.exit(0)</exec>
+		</onentry>
+	</state>
+
+</flow>
