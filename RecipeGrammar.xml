@@ -21,6 +21,7 @@
 				<one-of>
 					<item>ready</item>
 					<item>I'm ready</item>
+					<item>Okay</item>
 				</one-of>
 				<tag>out.ready=1</tag>
 			</item>
