@@ -8,7 +8,7 @@
  * Contributors:
  *     Gabriel Skantze - initial API and implementation
  ******************************************************************************/
-package iristk.app.guess;
+package iristk.app.kitchenMaid;
 
 import iristk.speech.SpeechGrammarContext;
 import iristk.speech.Voice.Gender;
@@ -17,12 +17,13 @@ import iristk.speech.windows.WindowsSynthesizer;
 import iristk.system.IrisUtils;
 import iristk.system.SimpleDialogSystem;
 import iristk.util.Language;
+import iristk.app.kitchenMaid.RecipeFlow;
 import iristk.cfg.SRGSGrammar;
 import iristk.flow.FlowModule;
 
-public class GuessSystem {
+public class RecipeSystem {
 
-	public GuessSystem() throws Exception {
+	public RecipeSystem() throws Exception {
 		// Create the system
 		SimpleDialogSystem system = new SimpleDialogSystem(this.getClass());
 		
@@ -42,17 +43,17 @@ public class GuessSystem {
 		system.setupSynthesizer(new WindowsSynthesizer(), Gender.FEMALE);
 		
 		// Add the flow
-		system.addModule(new FlowModule(new GuessFlow()));
+		system.addModule(new FlowModule(new RecipeFlow()));
 		
 		// Load a grammar in the recognizer
-		system.loadContext("default", new SpeechGrammarContext(new SRGSGrammar(system.getPackageFile("GuessGrammar.xml"))));
+		system.loadContext("default", new SpeechGrammarContext(new SRGSGrammar(system.getPackageFile("RecipeGrammar.xml"))));
 		
 		// Start the interaction
 		system.sendStartSignal();
 	}
 
 	public static void main(String[] args) throws Exception {
-		new GuessSystem();
+		new RecipeSystem();
 	}
 
 }

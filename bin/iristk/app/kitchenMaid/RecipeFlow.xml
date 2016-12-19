@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<flow name="GuessFlow" package="iristk.app.guess" 
+<flow name="RecipeFlow" package="iristk.app.kitchenMaid" 
 	initial="Start"	xmlns="iristk.flow" xmlns:p="iristk.flow.param" xmlns:dialog="iristk.flow.DialogFlow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="iristk.flow flow.xsd iristk.flow.DialogFlow DialogFlow.xsd">
 	
