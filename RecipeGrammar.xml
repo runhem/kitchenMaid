@@ -37,7 +37,7 @@
 					<item>I'm ready</item>
 				</one-of>
 				<tag>out.ready=1</tag>
-			<item>
+			</item>
 		</one-of>
   </rule>
   
