@@ -31,7 +31,6 @@
 	<state id="MoveOn" extends="Dialog">
 		<onentry>
 		<dialog:say>Now I'm reading the next step of the recipe</dialog:say>
-		<dialog:say>Here comes the next instruction</dialog:say>
 		<exec>instruction = instructions.next();</exec>
 		<dialog:say text="instruction.getFullInstruction()"/>
 		<goto state="Recipe"/>
