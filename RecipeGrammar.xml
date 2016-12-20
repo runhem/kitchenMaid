@@ -8,6 +8,11 @@
 			<item>
 				<one-of>
 					<item>yes</item>
+					<item>okey</item>
+					<item>okay</item>
+					<item>ok</item>
+					<item>good</item>
+					<item>fine</item>
 				</one-of>
 				<tag>out.yes=1</tag>
 			</item>
@@ -19,9 +24,9 @@
 			</item>
 			<item>
 				<one-of>
-					<item>what</item>
+					<item>Egg<tag>out.question="ingredient"</tag></item>
+					<item>Large bowl<tag>out.question="container"</tag></item>
 				</one-of>
-				<tag>out.question=1</tag>
 			</item>
 			<item>
 				<one-of>
@@ -37,7 +42,7 @@
 					<item>I'm ready</item>
 				</one-of>
 				<tag>out.ready=1</tag>
-			<item>
+			</item>
 		</one-of>
   </rule>
   

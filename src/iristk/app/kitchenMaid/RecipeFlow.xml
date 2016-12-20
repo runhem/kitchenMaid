@@ -28,14 +28,14 @@
 	
 	<state id="MoveOn" extends="Dialog">
 		<onentry>
-		<if cond="instructions.endOfRecipe()">
-		<dialog:say>You are finished with the recipe. Good job.</dialog:say>
-		<goto state="End"/>
-		<else/>
-		<exec>instruction = instructions.next();</exec>
-		<dialog:say text="instruction.getFullInstruction()"/>
-		<goto state="Recipe"/>
-		</if>
+			<if cond="instructions.endOfRecipe()">
+				<dialog:say>You are finished with the recipe. Good job.</dialog:say>
+				<goto state="End"/>
+			<else/>
+				<exec>instruction = instructions.next();</exec>
+				<dialog:say text="instruction.getFullInstruction()"/>
+				<goto state="Recipe"/>
+			</if>
 		</onentry>
 	</state>
 	
@@ -46,16 +46,19 @@
 		<onevent name="sense.user.speak" cond="event?:sem:yes">
 			<goto state="Wait"/>
 		</onevent>
-		<onevent name="sense.user.speak" cond="event?:sem:ok">
-			<goto state="Wait"/>
-		</onevent>
 		<onevent name="sense.user.speak" cond="event?:sem:no">
 			<dialog:say>Okey, let me repeat</dialog:say>
 			<dialog:say>Now I'm reading the same step again</dialog:say>
 			<goto state="Recipe"/>
 		</onevent>
 		<onevent name="sense.user.speak" cond="event?:sem:question">
-			<goto state="Question"/>
+			<if cond="event:sem:question == 'ingredient'">	
+				<goto state="IngredientQuestion"/>
+			<elseif cond="event:sem:question == 'container'"/>
+				<goto state="ContainerQuestion"/>
+			<else/>
+				<dialog:say>There is something wrong with the question</dialog:say>
+			</if>			
 		</onevent>
 	</state>
 
@@ -86,10 +89,35 @@
 		</onevent>
 	</state>
 
-	<state id="Question" extends="Dialog">
+	<state id="IngredientQuestion" extends="Dialog">
 		<onentry>
-			<dialog:say>I understand you have a question?</dialog:say>
+			<dialog:say>Oh no do you have trouble with your eggs?</dialog:say>
+			<dialog:say>I'm now answering your question. Do you understand?</dialog:say>
+			<goto state="QuestionAnswer"/>
 		</onentry>
+		
+	</state>
+
+	<state id="ContainerQuestion" extends="Dialog">
+		<onentry>
+			<dialog:say>Oh no do you have trouble with your container?</dialog:say>
+			<dialog:say>I'm now answering your question. Do you understand?</dialog:say>	
+			<goto state="QuestionAnswer"/>
+		</onentry>
+	</state>
+	
+	<state id="QuestionAnswer" extends="Dialog">
+		<onentry>
+			<dialog:listen/>
+		</onentry>
+		<onevent name="sense.user.speak" cond="event?:sem:yes">
+			<dialog:say>Good</dialog:say>
+			<goto state="Wait"/>
+		</onevent>
+		<onevent name="sense.user.speak" cond="event?:sem:no">
+			<dialog:say>Okey, too bad</dialog:say>
+			<goto state="Wait"/>
+		</onevent>
 	</state>
 	
 	<state id="End">
