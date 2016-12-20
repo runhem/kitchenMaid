@@ -11,16 +11,14 @@
 	
 	<var name="instruction" type="Instruction"/>
 	
-	
-	
-	
+
 	<state id="Start" extends="Dialog">
 		<onentry>
 			<dialog:say>Time to do some cool baking. Are you ready?</dialog:say>
 			<dialog:listen/>
 		</onentry>
 		<onevent name="sense.user.speak" cond="event?:sem:yes">
-			<dialog:say>Cool.</dialog:say>
+			<dialog:say>Cool. Lets get this party started</dialog:say>
 			<goto state="MoveOn"/>				
 		</onevent>
 		<onevent name="sense.user.speak" cond="event?:sem:no">
@@ -34,7 +32,6 @@
 		<dialog:say>You are finished with the recipe. Good job.</dialog:say>
 		<goto state="End"/>
 		<else/>
-		<dialog:say>Now I'm reading the next step of the recipe</dialog:say>
 		<exec>instruction = instructions.next();</exec>
 		<dialog:say text="instruction.getFullInstruction()"/>
 		<goto state="Recipe"/>
@@ -44,11 +41,12 @@
 	
 	<state id="Recipe" extends="Dialog">
 		<onentry>
-			<dialog:say>Did you understand the step?</dialog:say>
 			<dialog:listen/>
 		</onentry>
 		<onevent name="sense.user.speak" cond="event?:sem:yes">
-			<dialog:say>Good, let me know when you are ready</dialog:say>
+			<goto state="Wait"/>
+		</onevent>
+		<onevent name="sense.user.speak" cond="event?:sem:ok">
 			<goto state="Wait"/>
 		</onevent>
 		<onevent name="sense.user.speak" cond="event?:sem:no">
@@ -64,17 +62,22 @@
 	
 	<state id="Wait" extends="Dialog">
 	<onentry>
+		<dialog:say>Let me know when you are ready</dialog:say>
 		<dialog:listen/>
 	</onentry>
-	<onevent name="sense.user.speak" cond="event?:sem:yes">
-		<dialog:say>Good, lets move on</dialog:say>
+	<onevent name="sense.user.speak" cond="event?:sem:ready">
+		<random>
+			<dialog:say>Good, lets move on</dialog:say>
+			<dialog:say>Awesome time for the next step</dialog:say>
+			<dialog:say>Whoop whoop moving on</dialog:say>
+		</random>
 		<goto state="MoveOn"/>
 	</onevent>
 	</state>
 	
 	<state id="Dialog">
 		<onevent name="sense.user.silence">
-			<dialog:say>I am sorry, I didn't hear anything.</dialog:say>
+			<dialog:say>How is it going</dialog:say>
 			<reentry/>
 		</onevent>
 		<onevent name="sense.user.speak">
