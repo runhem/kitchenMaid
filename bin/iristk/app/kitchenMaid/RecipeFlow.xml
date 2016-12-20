@@ -30,15 +30,11 @@
 	
 	<state id="MoveOn" extends="Dialog">
 		<onentry>
-		<if cond="instructions.endOfRecipe()">
-		<dialog:say>You are finished with the recipe. Good job.</dialog:say>
-		<goto state="End"/>
-		<else/>
 		<dialog:say>Now I'm reading the next step of the recipe</dialog:say>
+		<dialog:say>Here comes the next instruction</dialog:say>
 		<exec>instruction = instructions.next();</exec>
 		<dialog:say text="instruction.getFullInstruction()"/>
 		<goto state="Recipe"/>
-		</if>
 		</onentry>
 	</state>
 	
