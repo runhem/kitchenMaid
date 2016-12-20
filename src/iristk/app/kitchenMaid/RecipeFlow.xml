@@ -11,13 +11,16 @@
 	
 	<var name="instruction" type="Instruction"/>
 	
+	
+	
+	
 	<state id="Start" extends="Dialog">
 		<onentry>
 			<dialog:say>Time to do some cool baking. Are you ready?</dialog:say>
 			<dialog:listen/>
 		</onentry>
 		<onevent name="sense.user.speak" cond="event?:sem:yes">
-			<dialog:say>Cool. Let's get this party started.</dialog:say>
+			<dialog:say>Cool.</dialog:say>
 			<goto state="MoveOn"/>				
 		</onevent>
 		<onevent name="sense.user.speak" cond="event?:sem:no">
@@ -27,6 +30,8 @@
 	
 	<state id="MoveOn" extends="Dialog">
 		<onentry>
+		<dialog:say>Now I'm reading the next step of the recipe</dialog:say>
+		<dialog:say>Here comes the next instruction</dialog:say>
 		<exec>instruction = instructions.next();</exec>
 		<dialog:say text="instruction.getFullInstruction()"/>
 		<goto state="Recipe"/>
@@ -35,12 +40,11 @@
 	
 	<state id="Recipe" extends="Dialog">
 		<onentry>
+			<dialog:say>Did you understand the step?</dialog:say>
 			<dialog:listen/>
 		</onentry>
-		<onevent name="sense.user.speak" cond="event?:sem:ok">
-			<goto state="Wait"/>
-		</onevent>
 		<onevent name="sense.user.speak" cond="event?:sem:yes">
+			<dialog:say>Good, let me know when you are ready</dialog:say>
 			<goto state="Wait"/>
 		</onevent>
 		<onevent name="sense.user.speak" cond="event?:sem:no">
@@ -56,22 +60,17 @@
 	
 	<state id="Wait" extends="Dialog">
 	<onentry>
-			<dialog:say>Let me know when you are ready</dialog:say>
 		<dialog:listen/>
 	</onentry>
-	<onevent name="sense.user.speak" cond="event?:sem:ready">
-		<random>
-			<dialog:say>Good, let's move on</dialog:say>
-			<dialog:say>Awesome, time for the next step</dialog:say>
-			<dialog:say>Whoop whoop, we're moving on</dialog:say>
-		</random>
+	<onevent name="sense.user.speak" cond="event?:sem:yes">
+		<dialog:say>Good, lets move on</dialog:say>
 		<goto state="MoveOn"/>
 	</onevent>
 	</state>
 	
 	<state id="Dialog">
 		<onevent name="sense.user.silence">
-			<dialog:say>How is it going?</dialog:say>
+			<dialog:say>I am sorry, I didn't hear anything.</dialog:say>
 			<reentry/>
 		</onevent>
 		<onevent name="sense.user.speak">
