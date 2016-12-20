@@ -19,9 +19,16 @@
 			</item>
 			<item>
 				<one-of>
-					<item>ready</item>
-					<item>I'm ready</item>
+					<item>Okey</item>
+					<item>Ok</item>
 					<item>Okay</item>
+				</one-of>
+				<tag>out.ok=1</tag>
+			</item>
+			<item>
+				<one-of>
+					<item>Ready</item>
+					<item>I'm ready</item>
 				</one-of>
 				<tag>out.ready=1</tag>
 			</item>

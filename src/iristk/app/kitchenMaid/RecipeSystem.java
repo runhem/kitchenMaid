@@ -36,8 +36,6 @@ public class RecipeSystem {
 		// Create the system
 		SimpleDialogSystem system = new SimpleDialogSystem(this.getClass());
 	//	SystemAgentFlow systemAgentFlow = system.addSystemAgent();
-
-
 		
 		// Set the language of the system
 		system.setLanguage(Language.ENGLISH_US);
