@@ -22,66 +22,64 @@ public class InstructionSet extends ArrayList<Instruction> {
 	
 	private static Logger logger = IrisUtils.getLogger(InstructionSet.class);
 	
-	private int n = 0; //counter to see where we are
+	private int n = 0;
 	
-	//Creating a set of instructions
+	//Här stoppar vi in questionfile som vi sedan läser av
 	public InstructionSet(InputStream questionFile) throws IOException {
 		try {	
+			
+			//br här är vår fil-isch
 			BufferedReader br = new BufferedReader(new InputStreamReader(questionFile));
-			//Reading line of text file
+			
+			//Här läser vi textfilen rad för rad
 			String line = br.readLine();
 			
-			int instructionNumber = 0;
-			int lineNumber = 0;
+			int qn = 0;
+			int ln = 0;
 			
-			//As long as line is not equal to null (there is a line)
+			
+			//Så länge det finns en rad att läsa - kollar så raden är giltig 
 			while ((line = br.readLine()) != null) {
-				lineNumber++;
+				ln++;
 				if (!line.matches("[A-Za-z0-9,\\.;\\?'\\- ]*")) {
-					System.err.println("Illegal line " + lineNumber + ": " + line);
+					System.err.println("Illegal line " + ln + ": " + line);
 					continue;
 				}
 				
-				//Separate by ';'
+				//Separera för varje ; och lägg i lista
 				String[] cols = line.split(";");
 				
-				//Sets 1 item as default for a line, if smaller than that it gives a warning
+				//Här kan vi bestämma hur många rader den ska läsa 
 				if (cols.length < 1) {
-					logger.warn("Not enough columns in line " + lineNumber + ": " + line);
+					logger.warn("Not enough columns in line " + ln + ": " + line);
 					continue;
 				} 
-				//Creates instruction and adds it
-				Instruction i = new Instruction("i" + instructionNumber++, cols);
-				add(i);
+				
+				//Skapa frågeobjekt - och formatera raden beroende på vad det är för delar
+				//I detta fall har vi ju fråga, svar, kategori osv. Detta kan vi ändra sen
+				Instruction q = new Instruction("q" + qn++, cols);
+				add(q);
 			}
-			logger.info(instructionNumber + " instructions read");
+			logger.info(qn + " questions read");
 		} catch (IOException e) {
-			throw new IOException("Problem reading instruction: " + e.getMessage());
+			throw new IOException("Problem reading questions: " + e.getMessage());
 		}
 	}
+	
 	
 	public InstructionSet(File file) throws IOException  {
 		this(new FileInputStream(file));
 	}
 	
-	// Gets the next instruction 
-	public Instruction next() {	
-		Instruction i = get(n);
+	
+	// Gets the next intruction *** CHANGE TO Instruction next() *** 
+	public Instruction next() {
+		Instruction q = get(n);
 		n++;
-		return i;
-	}
-	
-	//Returns true if we are finished with the recipe, and false otherwise
-	//if counter is bigger than size/amount of rows in text file it's the end of the recipe
-	public boolean endOfRecipe(){
 		if (n >= size()) {
-			return true;
+			n = 0;
 		}
-		else{
-			return false;
-			}
-		}
-	
-
+		return q;
+	}
 	
 }
