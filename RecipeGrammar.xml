@@ -38,6 +38,13 @@
 				</one-of>
 				<tag>out.ready=1</tag>
 			</item>
+			<item>
+				<one-of>
+					<item>how much_</item>
+					<item>amount_</item>
+				</one-of>
+				<tag>out.measurement=1</tag>
+			</item>		
 		</one-of>
   </rule>
   

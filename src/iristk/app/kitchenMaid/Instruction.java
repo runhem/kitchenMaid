@@ -65,6 +65,10 @@ public class Instruction {
 		
 		return  returnstring;
 	}
+	
+	public String getMeasurement(){
+		return measure;
+	}
 
 	
 	// *** Look into how we should change this *** 
