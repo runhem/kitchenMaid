@@ -70,6 +70,9 @@ public class Instruction {
 		return measure;
 	}
 
+	public String getIngredient(){
+		return ingredient;
+	}
 	
 	// *** Look into how we should change this *** 
 //	public String getGrammar() {
