@@ -65,14 +65,7 @@ public class Instruction {
 		
 		return  returnstring;
 	}
-	
-	public String getMeasurement(){
-		return measure;
-	}
 
-	public String getIngredient(){
-		return ingredient;
-	}
 	
 	// *** Look into how we should change this *** 
 //	public String getGrammar() {
