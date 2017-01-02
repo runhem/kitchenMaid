@@ -8,8 +8,12 @@
 			<item>
 				<one-of>
 					<item>yes</item>
+					<item>okay</item>
+					<item>okey</item>
+					<item>ok</item>
+					<item>all right</item>
 				</one-of>
-				<tag>out.yes=1</tag>
+				<tag>out.confirm=1</tag>
 			</item>
 			<item>
 				<one-of>
@@ -19,26 +23,28 @@
 			</item>
 			<item>
 				<one-of>
-					<item>what</item>
-				</one-of>
-				<tag>out.question=1</tag>
-			</item>
-			<item>
-				<one-of>
-					<item>Okey</item>
-					<item>Ok</item>
-					<item>Okay</item>
-				</one-of>
-				<tag>out.ok=1</tag>
-			</item>
-			<item>
-				<one-of>
 					<item>Ready</item>
 					<item>I'm ready</item>
 				</one-of>
 				<tag>out.ready=1</tag>
 			</item>
-		</one-of>
-  </rule>
-  
+		<item>
+			<one-of>
+				<item>how much_</item>
+				<item>amount_</item>
+				<item>how many_</item>
+			</one-of>
+			<tag>out.question="measurement"</tag>
+		</item>
+	 	<item>
+			<one-of>
+				<item>ingredient_</item>
+				<item>egg_</item>
+				<item>what_</item>
+			</one-of>
+			<tag>out.question="ingredient"</tag>
+		</item>
+ 	 	</one-of>
+ 	 	</rule>
+ 	 
 </grammar>
