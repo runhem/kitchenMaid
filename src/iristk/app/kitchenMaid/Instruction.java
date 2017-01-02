@@ -19,7 +19,7 @@ import iristk.util.RandomList;
 public class Instruction {
 
 	//Declaration of variables
-	private  String id;
+	private String id;
 	private String question;
 	private String action;
 	private String ingredient;
@@ -118,6 +118,5 @@ public class Instruction {
 	public String getId() {
 		return id;
 	}
-	
 	
 }

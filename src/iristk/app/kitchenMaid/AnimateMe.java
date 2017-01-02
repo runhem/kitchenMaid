@@ -9,80 +9,97 @@ package iristk.app.kitchenMaid;
  * visit http://www.davidflanagan.com/javaexamples2.
  */
 
-import java.applet.Applet;
+import java.awt.*;
 import java.awt.Color;
+import java.awt.event.*;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 
-/** An applet that displays a simple animation */
-public class AnimateMe extends Applet implements Runnable {
-  int x = 150, y = 50, r = 50; // Position and radius of the circle
+public class AnimateMe extends Frame implements Runnable {
+	int x = 200, y= 200, r = 20; // Position and radius of the circle
+	
+	int grow = 1; // Variable to select if the animation should grow or decrease
+	
+	Color c = Color.blue;
+	
+	volatile boolean talk = true;
+	volatile boolean listen = false;
+	volatile boolean detect = false;
+	
+	Thread animator; // The thread that performs the animation
+	
+	public AnimateMe(){
+		prepareGUI();	
+		animator = new Thread(this); // Create a thread
+		animator.start(); // Start the thread.
+	}
+		
+	private void prepareGUI(){
+		setSize(400, 400);
+		addWindowListener(new WindowAdapter(){
+			public void windowClosing(WindowEvent windowEvent){
+				System.exit(0);
+			}			
+		});
+	}
 
-  int dx = 11, dy = 7; // Trajectory of circle
-
-  Thread animator; // The thread that performs the animation
-
-  volatile boolean pleaseStop; // A flag to ask the thread to stop
-
-  /** This method simply draws the circle at its current position */
-  public void paint(Graphics g) {
-    g.setColor(Color.blue);
-    g.fillOval(x - r, y - r, r * 2, r * 2);
-  }
-  
-
-  /**
-   * This method moves (and bounces) the circle and then requests a redraw.
-   * The animator thread calls this method periodically.
-   */
-  public void animate() {
-	  if(r == 50){
-		  r = 52;
-	  }
-	  else{
-		  r = 50;
-	  }
+	@Override
+	public void paint(Graphics g) {
+	    g.setColor(c);
+	    g.fillOval(x - r, y - r, r * 2, r * 2);   
+	}
+	
+	public void animateTalk() {
+	  r = 40;
 	  repaint();
-  }
+	} 
+	
+	public void animateListen() {
+		  if(grow == 0){
+			  if(r>30){
+				  r=r-1;
+			  }else{
+				  grow=1;
+				  r=r+1;
+			  }
+		  }else{
+			if(r<40){
+				r=r+1;
+			}else{
+				grow=0;
+				r=r-1;
+			} 
+			  
+		  }
+		  repaint();
+	}
 
-  
-  /**
-   * This method is from the Runnable interface. It is the body of the thread
-   * that performs the animation. The thread itself is created and started in
-   * the start() method.
-   */
-  public void run() {
-    while (!pleaseStop) { // Loop until we're asked to stop
-      animate(); // Update and request redraw
-      try {
-        Thread.sleep(500);
-      } // Wait 100 milliseconds
-      catch (InterruptedException e) {
-      } // Ignore interruptions
-    }
-  }
+	public void run() {
+	    while (talk) { // Loop until we're asked to stop
+	      animateTalk(); // Update and request redraw
+	      try {
+	        Thread.sleep(70);
+	      } // Wait 100 milliseconds
+	      catch (InterruptedException e) {
+	      } // Ignore interruptions
+	    }
+	    while (listen) { // Loop until we're asked to stop
+		      animateListen(); // Update and request redraw
+		      try {
+		        Thread.sleep(70);
+		      } // Wait 100 milliseconds
+		      catch (InterruptedException e) {
+		      } // Ignore interruptions
+		    }
+	}
+	
+	public void setListen(){
+		listen = true;
+		talk = false;
+	}
 
-  /** Start animating when the browser starts the applet */
-  public void start() {
-    animator = new Thread(this); // Create a thread
-    pleaseStop = false; // Don't ask it to stop now
-    animator.start(); // Start the thread.
-    // The thread that called start now returns to its caller.
-    // Meanwhile, the new animator thread has called the run() method
-  }
-
-  /** Stop animating when the browser stops the applet */
-  public void stop() {
-	  r = 20;
-    // Set the flag that causes the run() method to end
-    pleaseStop = true;
-  }
+	public void setTalk(){
+		listen = false;
+		talk = true;
+	}
+	
 }
-
-           
-         
-    
-    
-    
-    
-  

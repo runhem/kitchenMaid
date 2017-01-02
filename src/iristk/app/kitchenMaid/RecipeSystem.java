@@ -18,15 +18,12 @@ import iristk.system.IrisUtils;
 import iristk.system.SimpleDialogSystem;
 import iristk.util.Language;
 import iristk.app.kitchenMaid.RecipeFlow;
-//import iristk.app.quiz.QuestionSet;
-//import iristk.app.quiz.QuizFlow;
 import iristk.cfg.SRGSGrammar;
 import iristk.flow.FlowModule;
 import iristk.situated.SituatedDialogSystem;
 import iristk.situated.SystemAgentFlow;
 
-
-import iristk.app.kitchenMaid.Instruction;
+import iristk.app.kitchenMaid.AnimateMe;
 import iristk.app.kitchenMaid.InstructionSet;
 //import iristk.app.kitchenMaid.RecipeFlow;
 
@@ -36,8 +33,6 @@ public class RecipeSystem {
 		// Create the system
 		SimpleDialogSystem system = new SimpleDialogSystem(this.getClass());
 	//	SystemAgentFlow systemAgentFlow = system.addSystemAgent();
-
-
 		
 		// Set the language of the system
 		system.setLanguage(Language.ENGLISH_US);
@@ -56,10 +51,14 @@ public class RecipeSystem {
 		
 		// Add the flow
 		//system.addModule(new FlowModule(new RecipeFlow(instructions, systemAgentFlow)));
+	    AnimateMe animation = new AnimateMe();  
+	    animation.setVisible(true);
 		
 		InstructionSet instructions = new InstructionSet(system.getPackageFile("recipe.txt"));
-		system.addModule(new FlowModule(new RecipeFlow(instructions))); 
+	
+		system.addModule(new FlowModule(new RecipeFlow(instructions, animation))); 
 		
+
 		// Load a grammar in the recognizer
 		system.loadContext("default", new SpeechGrammarContext(new SRGSGrammar(system.getPackageFile("RecipeGrammar.xml"))));
 		

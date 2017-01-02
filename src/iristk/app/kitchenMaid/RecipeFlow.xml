@@ -7,18 +7,21 @@
 	xmlns:dialog="iristk.flow.DialogFlow" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="iristk.flow flow.xsd iristk.flow.DialogFlow DialogFlow.xsd">
+	
 	<param name="instructions" type="InstructionSet"/>
+	<param name="animation" type="AnimateMe"/>
 	
 	<var name="instruction" type="Instruction"/>
 	<var name="measure" type="Measurement"/>
-	
 
 	<state id="Start" extends="Dialog">
 		<onentry>
 			<dialog:say>Time to do some cool baking. Are you ready?</dialog:say>
+			<exec>animation.setListen();</exec>
 			<dialog:listen/>
 		</onentry>
 		<onevent name="sense.user.speak" cond="event?:sem:confirm">
+			<exec>animation.setTalk();</exec>
 			<dialog:say>Cool. Lets get this party started</dialog:say>
 			<goto state="MoveOn"/>				
 		</onevent>
@@ -29,6 +32,7 @@
 	
 	<state id="MoveOn" extends="Dialog">
 		<onentry>
+		<exec>animation.setTalk();</exec>
 			<if cond="instructions.endOfRecipe()">
 				<dialog:say>You are finished with the recipe. Good job.</dialog:say>
 				<goto state="End"/>
@@ -42,12 +46,14 @@
 	<state id="Recipe" extends="Dialog">
 		<onentry>
 			<dialog:say text="instruction.getFullInstruction()"/>
+			<exec>animation.setListen();</exec>
 			<dialog:listen/>
 		</onentry>
 		<onevent name="sense.user.speak" cond="event?:sem:confirm">
 			<goto state="Wait"/>
 		</onevent>
 		<onevent name="sense.user.speak" cond="event?:sem:no">
+			<exec>animation.setTalk();</exec>
 			<dialog:say>Okey, let me repeat</dialog:say>
 			<dialog:say>Now I'm reading the same step again</dialog:say>
 			<goto state="Recipe"/>
@@ -57,10 +63,13 @@
 	
 	<state id="Wait" extends="Dialog">
 	<onentry>
+		<exec>animation.setTalk();</exec>	
 		<dialog:say>Let me know when you are ready</dialog:say>
+		<exec>animation.setListen();</exec>
 		<dialog:listen/>
 	</onentry>
 	<onevent name="sense.user.speak" cond="event?:sem:ready">
+		<exec>animation.setTalk();</exec>
 		<random>
 			<dialog:say>Good, lets move on</dialog:say>
 			<dialog:say>Awesome, time for the next step</dialog:say>
@@ -71,6 +80,9 @@
 	</state>
 	
 	<state id="Dialog">
+		<onentry>
+			<exec>animation.setTalk();</exec>
+		</onentry>
 		<onevent name="sense.user.speak" cond="event?:sem:question">
 			<if cond="event:sem:question == 'measurement'">
 				<goto state="Measurement"/>
