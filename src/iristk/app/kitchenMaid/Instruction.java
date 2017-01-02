@@ -67,41 +67,6 @@ public class Instruction {
 	}
 
 	
-	//Checks if there is an ingredient for the step, in that case returns the ingredient
-	//Otherwise it returns a string saying "no ingredient" that can be used as error handling in the flow
-	public String getIngredient(){
-		if(ingredient != null){
-			return ingredient;
-		}
-		else{
-			return "no ingredient"; 
-		}
-	}
-	
-	//Checks if there is a measurement for the step, in that case returns the measurement
-	//Otherwise it returns a string saying "no measurement" that can be used as error handling in the flow
-	public String getMeasurement(){
-		if(measure !=null){
-			return measure;
-		}
-		else{
-			return "no measurement";
-		}
-	}
-	
-	//Checks if there is a container for the step, in that case returns the container
-	//Otherwise it returns a string saying "no container" that can be used as error handling in the flow
-	public String getContainer(){
-		if(container != null){
-			return container;
-		}
-		else{
-			return "no container";
-		}
-	}
-	
-	
-	
 	// *** Look into how we should change this *** 
 //	public String getGrammar() {
 //		StringBuilder grammar = new StringBuilder();
