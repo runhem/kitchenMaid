@@ -10,6 +10,10 @@
  ******************************************************************************/
 package iristk.app.kitchenMaid;
 
+
+import java.util.Timer; 
+import java.util.TimerTask;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,6 +29,10 @@ public class Instruction {
 	private String ingredient;
 	private String measure;
 	private String container;
+	private Timer timer; 
+	private String time;
+	private String amount;
+	private boolean timeFinished; 
 	
 	private String returnstring;
 	
@@ -40,20 +48,25 @@ public class Instruction {
 		
 		//If there are measurement, ingredient or container on line we create them here
 		if (cols.length > 1) {
-			measure = cols[1].trim();
+			amount = cols[1].trim();
 		}
-		if (cols.length > 2) {
-			ingredient = cols[2].trim();
+		if (cols.length > 2) {	
+			measure = cols[2].trim();
 		}
 		if (cols.length > 3) {
-			container = cols[3].trim();
+			ingredient = cols[3].trim();
+		}
+		if (cols.length > 4) {
+			container = cols[4].trim();
 		}
 	}
-	
 	
 	//Returns instruction on different formats depending on what it contains
 	public String getFullInstruction() {
 		returnstring = action;
+		if(amount != null){
+			returnstring = returnstring + " " + amount;
+		}
 		if(measure != null){
 			returnstring = returnstring + " " + measure;
 		}
@@ -79,6 +92,16 @@ public class Instruction {
 			}
 		}
 		
+		
+		public String getAmount(){
+			if(amount != null){
+				return amount;
+			}
+			else{
+				return "no amount";
+			}
+		}
+		
 		//Checks if there is a measurement for the step, in that case returns the measurement
 		//Otherwise it returns a string saying "no measurement" that can be used as error handling in the flow
 		public String getMeasurement(){
@@ -99,6 +122,40 @@ public class Instruction {
 			else{
 				return "no container";
 			}
+		}
+		
+		public boolean getTimer(){
+				if (measure.equals("minutes")){
+					return true;
+				}
+				else{
+					return false;
+				}
+		}
+		
+		
+		public void setTimer(){
+			timeFinished = false;
+			 timer =new Timer();
+			 timer.schedule(new TimerTask(){
+				 int seconds = Integer.parseInt(amount)*60; 
+				
+				 public void run() { 
+						if (seconds > 0) { 
+							System.out.println(seconds); seconds--; 
+							} 
+						else { 
+							System.out.println("Time's up!");  
+							timer.cancel(); 
+							timeFinished = true;
+							} 
+						}
+				 
+			 }, 0, 1000); 
+		}
+		
+		public boolean isTimerReady(){
+			return timeFinished;
 		}
 		
 	// *** Look into how we should change this *** 

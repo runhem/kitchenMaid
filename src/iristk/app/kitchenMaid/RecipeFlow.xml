@@ -42,6 +42,9 @@
 	<state id="Recipe" extends="Dialog">
 		<onentry>
 			<dialog:say text="instruction.getFullInstruction()"/>
+				<if cond="instruction.getTimer()">
+					<goto state="Timer"/>
+				</if>
 			<dialog:listen/>
 		</onentry>
 		<onevent name="sense.user.speak" cond="event?:sem:confirm">
@@ -54,10 +57,31 @@
 		</onevent>
 	</state>
 
+	<state id="Timer" extends="Dialog">
+		<onentry>
+				<dialog:say>Setting timer for</dialog:say>
+				<dialog:say text="instruction.getAmount()"/>
+				<dialog:say text="instruction.getMeasurement()"/>
+				<exec>instruction.setTimer();</exec>
+				<goto state="timerReady"/>
+		</onentry>
+	</state>
+	
+	<state id="timerReady" extends="Timer">
+	<onentry>
+		<dialog:listen/>
+		<if cond="instruction.isTimerReady()">
+			<dialog:say>Times up!!! Lets move on</dialog:say>
+			<goto state="MoveOn"/>
+		<else/>
+			<goto state="timerReady"/>
+		</if>
+		</onentry>
+	</state>
 	
 	<state id="Wait" extends="Dialog">
 	<onentry>
-		<dialog:say>Let me know when you are ready</dialog:say>
+		<dialog:say>Let me know when you are ready</dialog:say>		
 		<dialog:listen/>
 	</onentry>
 	<onevent name="sense.user.speak" cond="event?:sem:ready">
