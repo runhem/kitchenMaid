@@ -35,7 +35,6 @@
 				<one-of>
 					<item>Ready</item>
 					<item>I'm ready</item>
-					<item>Now</item>
 				</one-of>
 				<tag>out.ready=1</tag>
 			</item>
