@@ -93,6 +93,7 @@ public class Instruction {
 		}
 		
 		
+		//Returns the amount from the recipe if there is an amount
 		public String getAmount(){
 			if(amount != null){
 				return amount;
@@ -124,6 +125,7 @@ public class Instruction {
 			}
 		}
 		
+		//Returns true if the measurement is in minutes because that means that we should start a timer
 		public boolean getTimer(){
 				if (measure.equals("minutes")){
 					return true;
@@ -133,7 +135,7 @@ public class Instruction {
 				}
 		}
 		
-		
+		//Running timer
 		public void setTimer(){
 			timeFinished = false;
 			 timer =new Timer();
@@ -154,6 +156,7 @@ public class Instruction {
 			 }, 0, 1000); 
 		}
 		
+		//Returns the timeFinished variable that will be true if the timer is finished and otherwise false
 		public boolean isTimerReady(){
 			return timeFinished;
 		}
