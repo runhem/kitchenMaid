@@ -10,7 +10,6 @@
 	<param name="instructions" type="InstructionSet"/>
 	
 	<var name="instruction" type="Instruction"/>
-	<var name="measure" type="Measurement"/>
 	
 
 	<state id="Start" extends="Dialog">
@@ -57,11 +56,6 @@
 		</onevent>
 		<onevent name="sense.user.speak" cond="event?:sem:question">
 			<goto state="Question"/>
-		</onevent>	
-		<onevent name="sense.user.speak" cond="event?:sem:measurement">
-			<dialog:say>Okey, let me repeat the amount</dialog:say>
-			<dialog:say text="instruction.getMeasurement()"/>
-			<goto state="Wait"/>
 		</onevent>
 	</state>
 
@@ -97,13 +91,6 @@
 			<dialog:say>I understand you have a question?</dialog:say>
 		</onentry>
 	</state>
-	
-	
-	<state id="Measurement" extends="Dialog">
-		<onentry>
-			<dialog:say>Okey, let me repeat the amount</dialog:say>
-		</onentry>
-	</state>		
 	
 	<state id="End">
 		<onentry>
