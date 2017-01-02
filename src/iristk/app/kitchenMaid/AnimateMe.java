@@ -29,6 +29,7 @@ public class AnimateMe extends Applet implements Runnable {
     g.setColor(Color.blue);
     g.fillOval(x - r, y - r, r * 2, r * 2);
   }
+  
 
   /**
    * This method moves (and bounces) the circle and then requests a redraw.
