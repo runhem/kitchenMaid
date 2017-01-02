@@ -43,7 +43,7 @@
 		<onentry>
 			<dialog:say text="instruction.getFullInstruction()"/>
 				<if cond="instruction.getTimer()">
-					<goto state="Timer"/>
+					<goto state="startTimer"/>
 				</if>
 			<dialog:listen/>
 		</onentry>
@@ -54,6 +54,22 @@
 			<dialog:say>Okey, let me repeat</dialog:say>
 			<dialog:say>Now I'm reading the same step again</dialog:say>
 			<goto state="Recipe"/>
+		</onevent>
+	</state>
+	
+	<state id="startTimer" extends="Dialog">
+		<onentry>
+			<dialog:say>I will help you track the time. Let me know when to set the timer</dialog:say>
+			<dialog:listen/>
+		</onentry>
+		<onevent name="sense.user.speak" cond="event?:sem:confirm">
+			<goto state="Timer"></goto>
+		</onevent>
+		<onevent name="sense.user.speak" cond="event?:sem:no">
+			<dialog:say>You need to set a timer for this part. </dialog:say>
+			<!-- Or do you want to stop with the baking? -->
+			<!-- Or do you want to skip this step? -->
+			<goto state="startTimer"/>
 		</onevent>
 	</state>
 
