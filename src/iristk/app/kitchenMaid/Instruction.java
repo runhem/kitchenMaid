@@ -67,6 +67,7 @@ public class Instruction {
 		return  returnstring;
 	}
 	
+
 	//Checks if there is an ingredient for the step, in that case returns the ingredient
 		//Otherwise it returns a string saying "no ingredient" that can be used as error handling in the flow
 		public String getIngredient(){
@@ -100,8 +101,6 @@ public class Instruction {
 			}
 		}
 		
-
-	
 	// *** Look into how we should change this *** 
 //	public String getGrammar() {
 //		StringBuilder grammar = new StringBuilder();
