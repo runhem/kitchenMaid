@@ -10,8 +10,6 @@
  ******************************************************************************/
 package iristk.app.kitchenMaid;
 
-
-
 //Instruction class
 public class Instruction {
 

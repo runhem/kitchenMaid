@@ -38,6 +38,7 @@ public class AnimateMe extends Frame implements Runnable {
 		
 	private void prepareGUI(){
 		setSize(600, 600);
+		centerFrame();
 		addWindowListener(new WindowAdapter(){
 			public void windowClosing(WindowEvent windowEvent){
 				System.exit(0);
@@ -45,12 +46,22 @@ public class AnimateMe extends Frame implements Runnable {
 		});
 	}
 
+    private void centerFrame() {
+        Dimension windowSize = getSize();
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        Point centerPoint = ge.getCenterPoint();
+
+        int dx = centerPoint.x - windowSize.width / 2;
+        int dy = centerPoint.y - windowSize.height / 2;    
+        setLocation(dx, dy);
+}
+    
 	public void paint(Graphics g) {
 	    g.setColor(c);
 	    g.fillOval(x - r, y - r, r * 2, r * 2);
-	    Font font = new Font("Serif", Font.PLAIN, 50);
-	    g.setFont(font);
-	    g.drawString(sec, 40, 150); 
+//	    Font font = new Font("Serif", Font.PLAIN, 50);
+//	    g.setFont(font);
+//	    g.drawString(sec, 40, 150); 
 	}
 	
 	public void animateTalk() {
@@ -89,14 +100,14 @@ public class AnimateMe extends Frame implements Runnable {
 	
 	public void run() {
 		while(true){
-			if(timer){
-				animateTimer();			
-				try {
-					Thread.sleep(1000);
-				} // Wait 100 milliseconds
-				catch (InterruptedException e) {
-				} // Ignore interruptions			
-			}
+//			if(timer){
+//				animateTimer();			
+//				try {
+//					Thread.sleep(1000);
+//				} // Wait 100 milliseconds
+//				catch (InterruptedException e) {
+//				} // Ignore interruptions			
+//			}
 			while (talk) { // Loop until we're asked to stop
 				try {
 					Thread.sleep(70);
