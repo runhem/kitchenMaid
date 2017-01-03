@@ -12,6 +12,7 @@ import static iristk.flow.State.*;
 public class RecipeFlow extends iristk.flow.Flow {
 
 	private InstructionSet instructions;
+	private AnimateMe animation;
 	private Instruction instruction;
 	private Measurement measure;
 
@@ -38,17 +39,23 @@ public class RecipeFlow extends iristk.flow.Flow {
 		return this.instructions;
 	}
 
+	public AnimateMe getAnimation() {
+		return this.animation;
+	}
+
 	@Override
 	public Object getVariable(String name) {
 		if (name.equals("instruction")) return this.instruction;
 		if (name.equals("measure")) return this.measure;
 		if (name.equals("instructions")) return this.instructions;
+		if (name.equals("animation")) return this.animation;
 		return null;
 	}
 
 
-	public RecipeFlow(InstructionSet instructions) {
+	public RecipeFlow(InstructionSet instructions, AnimateMe animation) {
 		this.instructions = instructions;
+		this.animation = animation;
 		initVariables();
 	}
 
@@ -70,19 +77,24 @@ public class RecipeFlow extends iristk.flow.Flow {
 		public void onentry() throws Exception {
 			int eventResult;
 			Event event = new Event("state.enter");
-			// Line: 17
+			// Line: 18
 			try {
 				EXECUTION: {
 					int count = getCount(1973336893) + 1;
 					incrCount(1973336893);
+					// Line: 19
+					animation.setVisible(true);
 					iristk.flow.DialogFlow.say state0 = new iristk.flow.DialogFlow.say();
 					StringCreator string1 = new StringCreator();
 					string1.append("Time to do some cool baking. Are you ready?");
 					state0.setText(string1.toString());
-					if (!flowThread.callState(state0, new FlowEventInfo(currentState, event, new XMLLocation(new File("C:\\Users\\Niklas\\IrisTK\\app\\kitchenMaid\\src\\iristk\\app\\kitchenMaid\\RecipeFlow.xml"), 17, 12)))) {
+					if (!flowThread.callState(state0, new FlowEventInfo(currentState, event, new XMLLocation(new File("C:\\Users\\Frida\\IrisTK\\app\\kitchenMaid\\src\\iristk\\app\\kitchenMaid\\RecipeFlow.xml"), 18, 12)))) {
+
 						eventResult = EVENT_ABORTED;
 						break EXECUTION;
 					}
+					// Line: 21
+					animation.setListen();
 					iristk.flow.DialogFlow.listen state2 = new iristk.flow.DialogFlow.listen();
 					if (!flowThread.callState(state2, new FlowEventInfo(currentState, event, new XMLLocation(new File("C:\\Users\\Niklas\\IrisTK\\app\\kitchenMaid\\src\\iristk\\app\\kitchenMaid\\RecipeFlow.xml"), 17, 12)))) {
 						eventResult = EVENT_ABORTED;
@@ -98,7 +110,7 @@ public class RecipeFlow extends iristk.flow.Flow {
 		public int onFlowEvent(Event event) throws Exception {
 			int eventResult;
 			int count;
-			// Line: 21
+			// Line: 24
 			try {
 				count = getCount(1174290147) + 1;
 				if (event.triggers("sense.user.speak")) {
@@ -106,6 +118,8 @@ public class RecipeFlow extends iristk.flow.Flow {
 						incrCount(1174290147);
 						eventResult = EVENT_CONSUMED;
 						EXECUTION: {
+							// Line: 25
+							animation.setTalk();
 							iristk.flow.DialogFlow.say state3 = new iristk.flow.DialogFlow.say();
 							StringCreator string4 = new StringCreator();
 							string4.append("Cool. Lets get this party started");
@@ -114,7 +128,7 @@ public class RecipeFlow extends iristk.flow.Flow {
 								eventResult = EVENT_ABORTED;
 								break EXECUTION;
 							}
-							// Line: 23
+							// Line: 27
 							MoveOn state5 = new MoveOn();
 							flowThread.gotoState(state5, currentState, new FlowEventInfo(currentState, event, new XMLLocation(new File("C:\\Users\\Niklas\\IrisTK\\app\\kitchenMaid\\src\\iristk\\app\\kitchenMaid\\RecipeFlow.xml"), 23, 26)));
 							eventResult = EVENT_ABORTED;
@@ -126,7 +140,7 @@ public class RecipeFlow extends iristk.flow.Flow {
 			} catch (Exception e) {
 				throw new FlowException(e, currentState, event, new XMLLocation(new File("C:\\Users\\Niklas\\IrisTK\\app\\kitchenMaid\\src\\iristk\\app\\kitchenMaid\\RecipeFlow.xml"), 21, 62));
 			}
-			// Line: 25
+			// Line: 29
 			try {
 				count = getCount(1285044316) + 1;
 				if (event.triggers("sense.user.speak")) {
@@ -134,7 +148,7 @@ public class RecipeFlow extends iristk.flow.Flow {
 						incrCount(1285044316);
 						eventResult = EVENT_CONSUMED;
 						EXECUTION: {
-							// Line: 26
+							// Line: 30
 							End state6 = new End();
 							flowThread.gotoState(state6, currentState, new FlowEventInfo(currentState, event, new XMLLocation(new File("C:\\Users\\Niklas\\IrisTK\\app\\kitchenMaid\\src\\iristk\\app\\kitchenMaid\\RecipeFlow.xml"), 26, 23)));
 							eventResult = EVENT_ABORTED;
@@ -170,38 +184,42 @@ public class RecipeFlow extends iristk.flow.Flow {
 		public void onentry() throws Exception {
 			int eventResult;
 			Event event = new Event("state.enter");
-			// Line: 31
+			// Line: 35
 			try {
 				EXECUTION: {
 					int count = getCount(1588970020) + 1;
 					incrCount(1588970020);
 					// Line: 32
 					if (instructions.endOfRecipe()) {
+						// Line: 37
+						animation.setTalk();
 						iristk.flow.DialogFlow.say state7 = new iristk.flow.DialogFlow.say();
 						StringCreator string8 = new StringCreator();
 						string8.append("You are finished with the recipe. Good job.");
 						state7.setText(string8.toString());
 						if (!flowThread.callState(state7, new FlowEventInfo(currentState, event, new XMLLocation(new File("C:\\Users\\Niklas\\IrisTK\\app\\kitchenMaid\\src\\iristk\\app\\kitchenMaid\\RecipeFlow.xml"), 32, 42)))) {
-							eventResult = EVENT_ABORTED;
+
+             eventResult = EVENT_ABORTED;
 							break EXECUTION;
 						}
-						// Line: 34
+						// Line: 39
 						End state9 = new End();
+
 						flowThread.gotoState(state9, currentState, new FlowEventInfo(currentState, event, new XMLLocation(new File("C:\\Users\\Niklas\\IrisTK\\app\\kitchenMaid\\src\\iristk\\app\\kitchenMaid\\RecipeFlow.xml"), 34, 24)));
 						eventResult = EVENT_ABORTED;
 						break EXECUTION;
-						// Line: 35
+						// Line: 40
 					} else {
-						// Line: 36
+						// Line: 41
 						instruction = instructions.next();
-						// Line: 37
+						// Line: 42
 						Recipe state10 = new Recipe();
 						flowThread.gotoState(state10, currentState, new FlowEventInfo(currentState, event, new XMLLocation(new File("C:\\Users\\Niklas\\IrisTK\\app\\kitchenMaid\\src\\iristk\\app\\kitchenMaid\\RecipeFlow.xml"), 37, 27)));
 						eventResult = EVENT_ABORTED;
 						break EXECUTION;
 					}
 				}
-			} catch (Exception e) {
+      } catch (Exception e) {
 				throw new FlowException(e, currentState, event, new XMLLocation(new File("C:\\Users\\Niklas\\IrisTK\\app\\kitchenMaid\\src\\iristk\\app\\kitchenMaid\\RecipeFlow.xml"), 31, 12));
 			}
 		}
@@ -234,10 +252,10 @@ public class RecipeFlow extends iristk.flow.Flow {
 		public void onentry() throws Exception {
 			int eventResult;
 			Event event = new Event("state.enter");
-			// Line: 43
+			// Line: 48
 			try {
 				EXECUTION: {
-					int count = getCount(476402209) + 1;
+				int count = getCount(476402209) + 1;
 					incrCount(476402209);
 					iristk.flow.DialogFlow.say state11 = new iristk.flow.DialogFlow.say();
 					state11.setText(instruction.getFullInstruction());
@@ -286,6 +304,7 @@ public class RecipeFlow extends iristk.flow.Flow {
 					}
 				}
 			} catch (Exception e) {
+
 				throw new FlowException(e, currentState, event, new XMLLocation(new File("C:\\Users\\Niklas\\IrisTK\\app\\kitchenMaid\\src\\iristk\\app\\kitchenMaid\\RecipeFlow.xml"), 50, 62));
 			}
 			// Line: 53
@@ -658,6 +677,7 @@ public class RecipeFlow extends iristk.flow.Flow {
 		public void onentry() throws Exception {
 			int eventResult;
 			Event event = new Event("state.enter");
+
 			// Line: 111
 			try {
 				EXECUTION: {
@@ -678,7 +698,8 @@ public class RecipeFlow extends iristk.flow.Flow {
 					}
 				}
 			} catch (Exception e) {
-				throw new FlowException(e, currentState, event, new XMLLocation(new File("C:\\Users\\Niklas\\IrisTK\\app\\kitchenMaid\\src\\iristk\\app\\kitchenMaid\\RecipeFlow.xml"), 111, 11));
+				throw new FlowException(e, currentState, event, new XMLLocation(new File("C:\\Users\\Frida\\IrisTK\\app\\kitchenMaid\\src\\iristk\\app\\kitchenMaid\\RecipeFlow.xml"), 66, 11));
+
 			}
 		}
 
@@ -785,6 +806,29 @@ public class RecipeFlow extends iristk.flow.Flow {
 		public int onFlowEvent(Event event) throws Exception {
 			int eventResult;
 			int count;
+
+			// Line: 84
+			try {
+				count = getCount(1694819250) + 1;
+				if (event.triggers("sense.user.speak")) {
+					if (event.has("sem:question")) {
+						incrCount(1694819250);
+						eventResult = EVENT_CONSUMED;
+						EXECUTION: {
+							// Line: 85
+							if (event.get("sem:question") == "measurement") {
+								// Line: 86
+								Measurement state30 = new Measurement();
+								flowThread.gotoState(state30, currentState, new FlowEventInfo(currentState, event, new XMLLocation(new File("C:\\Users\\Frida\\IrisTK\\app\\kitchenMaid\\src\\iristk\\app\\kitchenMaid\\RecipeFlow.xml"), 86, 32)));
+								eventResult = EVENT_ABORTED;
+								break EXECUTION;
+								// Line: 87
+							} else if (event.get("sem:question") == "ingredient") {
+								// Line: 88
+								Ingredient state31 = new Ingredient();
+								flowThread.gotoState(state31, currentState, new FlowEventInfo(currentState, event, new XMLLocation(new File("C:\\Users\\Frida\\IrisTK\\app\\kitchenMaid\\src\\iristk\\app\\kitchenMaid\\RecipeFlow.xml"), 88, 31)));
+								eventResult = EVENT_ABORTED;
+
 			// Line: 126
 			try {
 				count = getCount(1404928347) + 1;
@@ -808,7 +852,7 @@ public class RecipeFlow extends iristk.flow.Flow {
 					if (eventResult != EVENT_IGNORED) return eventResult;
 				}
 			} catch (Exception e) {
-				throw new FlowException(e, currentState, event, new XMLLocation(new File("C:\\Users\\Niklas\\IrisTK\\app\\kitchenMaid\\src\\iristk\\app\\kitchenMaid\\RecipeFlow.xml"), 126, 38));
+throw new FlowException(e, currentState, event, new XMLLocation(new File("C:\\Users\\Niklas\\IrisTK\\app\\kitchenMaid\\src\\iristk\\app\\kitchenMaid\\RecipeFlow.xml"), 126, 38));
 			}
 			// Line: 130
 			try {
@@ -833,6 +877,7 @@ public class RecipeFlow extends iristk.flow.Flow {
 					if (eventResult != EVENT_IGNORED) return eventResult;
 				}
 			} catch (Exception e) {
+
 				throw new FlowException(e, currentState, event, new XMLLocation(new File("C:\\Users\\Niklas\\IrisTK\\app\\kitchenMaid\\src\\iristk\\app\\kitchenMaid\\RecipeFlow.xml"), 130, 36));
 			}
 			eventResult = super.onFlowEvent(event);
@@ -859,6 +904,7 @@ public class RecipeFlow extends iristk.flow.Flow {
 		public void onentry() throws Exception {
 			int eventResult;
 			Event event = new Event("state.enter");
+
 			// Line: 137
 			try {
 				EXECUTION: {
@@ -885,7 +931,9 @@ public class RecipeFlow extends iristk.flow.Flow {
 					break EXECUTION;
 				}
 			} catch (Exception e) {
+
 				throw new FlowException(e, currentState, event, new XMLLocation(new File("C:\\Users\\Niklas\\IrisTK\\app\\kitchenMaid\\src\\iristk\\app\\kitchenMaid\\RecipeFlow.xml"), 137, 12));
+
 			}
 		}
 
@@ -917,6 +965,7 @@ public class RecipeFlow extends iristk.flow.Flow {
 		public void onentry() throws Exception {
 			int eventResult;
 			Event event = new Event("state.enter");
+
 			// Line: 145
 			try {
 				EXECUTION: {
@@ -943,6 +992,7 @@ public class RecipeFlow extends iristk.flow.Flow {
 					break EXECUTION;
 				}
 			} catch (Exception e) {
+
 				throw new FlowException(e, currentState, event, new XMLLocation(new File("C:\\Users\\Niklas\\IrisTK\\app\\kitchenMaid\\src\\iristk\\app\\kitchenMaid\\RecipeFlow.xml"), 145, 12));
 			}
 		}
@@ -975,6 +1025,7 @@ public class RecipeFlow extends iristk.flow.Flow {
 		public void onentry() throws Exception {
 			int eventResult;
 			Event event = new Event("state.enter");
+
 			// Line: 153
 			try {
 				EXECUTION: {
@@ -993,6 +1044,7 @@ public class RecipeFlow extends iristk.flow.Flow {
 				}
 			} catch (Exception e) {
 				throw new FlowException(e, currentState, event, new XMLLocation(new File("C:\\Users\\Niklas\\IrisTK\\app\\kitchenMaid\\src\\iristk\\app\\kitchenMaid\\RecipeFlow.xml"), 153, 12));
+
 			}
 		}
 
