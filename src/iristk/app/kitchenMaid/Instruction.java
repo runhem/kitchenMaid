@@ -33,6 +33,7 @@ public class Instruction {
 	private String time;
 	private String amount;
 	private boolean timeFinished; 
+	private String sec; 
 	
 	private String returnstring;
 	
@@ -127,7 +128,7 @@ public class Instruction {
 		
 		//Returns true if the measurement is in minutes because that means that we should start a timer
 		public boolean getTimer(){
-				if (measure.equals("minutes")){
+				if (measure.equals("seconds")){
 					return true;
 				}
 				else{
@@ -140,11 +141,12 @@ public class Instruction {
 			timeFinished = false;
 			 timer =new Timer();
 			 timer.schedule(new TimerTask(){
-				 int seconds = Integer.parseInt(amount)*60; 
-				
+				public Integer seconds = Integer.parseInt(amount); 
 				 public void run() { 
 						if (seconds > 0) { 
-							System.out.println(seconds); seconds--; 
+							System.out.println(seconds); 
+							seconds--; 
+							sec = Integer.toString(seconds);
 							} 
 						else { 
 							System.out.println("Time's up!");  
@@ -159,6 +161,10 @@ public class Instruction {
 		//Returns the timeFinished variable that will be true if the timer is finished and otherwise false
 		public boolean isTimerReady(){
 			return timeFinished;
+		}
+		
+		public String getSeconds(){
+			return sec;
 		}
 		
 	// *** Look into how we should change this *** 

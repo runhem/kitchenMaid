@@ -23,8 +23,10 @@
 			</item>
 			<item>
 				<one-of>
-					<item>Ready</item>
-					<item>I'm ready</item>
+					<item>ready</item>
+					<item>I am ready</item>
+					<item>next</item>
+					<item>done</item>
 				</one-of>
 				<tag>out.ready=1</tag>
 			</item>

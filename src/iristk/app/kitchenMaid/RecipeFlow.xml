@@ -55,6 +55,15 @@
 			<dialog:say>Now I'm reading the same step again</dialog:say>
 			<goto state="Recipe"/>
 		</onevent>
+		<onevent name="sense.user.speak" cond="event?:sem:question">
+			<if cond="event:sem:question == 'measurement'">
+				<goto state="Measurement"/>
+			<elseif cond="event:sem:question == 'ingredient'"/>
+				<goto state="Ingredient"/>
+			<else/>
+				<dialog:say>Oh no</dialog:say>
+			</if>
+		</onevent>
 	</state>
 	
 	<state id="startTimer" extends="Dialog">
@@ -67,8 +76,6 @@
 		</onevent>
 		<onevent name="sense.user.speak" cond="event?:sem:no">
 			<dialog:say>You need to set a timer for this part. </dialog:say>
-			<!-- Or do you want to stop with the baking? -->
-			<!-- Or do you want to skip this step? -->
 			<goto state="startTimer"/>
 		</onevent>
 	</state>
@@ -83,16 +90,21 @@
 		</onentry>
 	</state>
 	
-	<state id="timerReady" extends="Timer">
-	<onentry>
-		<dialog:listen/>
-		<if cond="instruction.isTimerReady()">
-			<dialog:say>Times up!!! Lets move on</dialog:say>
-			<goto state="MoveOn"/>
-		<else/>
-			<goto state="timerReady"/>
-		</if>
+	<state id="timerReady">
+		<onentry>
+			<dialog:listen/>
+			<if cond="instruction.isTimerReady()">
+				<dialog:say>Times up!!! Lets move on</dialog:say>
+				<goto state="MoveOn"/>
+			<else/>
+				<goto state="timerReady"/>
+			</if>
 		</onentry>
+		<onevent name="sense.user.speak" cond="event?:sem:no">
+			<dialog:say>It's</dialog:say>
+			<dialog:say text="instruction.getSeconds()"/>
+			<dialog:say>seconds left</dialog:say>
+		</onevent>
 	</state>
 	
 	<state id="Wait" extends="Dialog">
@@ -111,15 +123,6 @@
 	</state>
 	
 	<state id="Dialog">
-		<onevent name="sense.user.speak" cond="event?:sem:question">
-			<if cond="event:sem:question == 'measurement'">
-				<goto state="Measurement"/>
-			<elseif cond="event:sem:question == 'ingredient'"/>
-				<goto state="Ingredient"/>
-			<else/>
-				<dialog:say>Oh no</dialog:say>
-			</if>
-		</onevent>
 		<onevent name="sense.user.silence">
 			<dialog:say>How is it going</dialog:say>
 			<reentry/>
