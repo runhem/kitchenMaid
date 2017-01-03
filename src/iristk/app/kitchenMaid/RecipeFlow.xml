@@ -42,6 +42,9 @@
 	<state id="Recipe" extends="Dialog">
 		<onentry>
 			<dialog:say text="instruction.getFullInstruction()"/>
+				<if cond="instruction.getTimer()">
+					<goto state="startTimer"/>
+				</if>
 			<dialog:listen/>
 		</onentry>
 		<onevent name="sense.user.speak" cond="event?:sem:confirm">
@@ -52,12 +55,61 @@
 			<dialog:say>Now I'm reading the same step again</dialog:say>
 			<goto state="Recipe"/>
 		</onevent>
+		<onevent name="sense.user.speak" cond="event?:sem:question">
+			<if cond="event:sem:question == 'measurement'">
+				<goto state="Measurement"/>
+			<elseif cond="event:sem:question == 'ingredient'"/>
+				<goto state="Ingredient"/>
+			<else/>
+				<dialog:say>Oh no</dialog:say>
+			</if>
+		</onevent>
+	</state>
+	
+	<state id="startTimer" extends="Dialog">
+		<onentry>
+			<dialog:say>I will help you track the time. Let me know when to set the timer</dialog:say>
+			<dialog:listen/>
+		</onentry>
+		<onevent name="sense.user.speak" cond="event?:sem:confirm">
+			<goto state="Timer"></goto>
+		</onevent>
+		<onevent name="sense.user.speak" cond="event?:sem:no">
+			<dialog:say>You need to set a timer for this part. </dialog:say>
+			<goto state="startTimer"/>
+		</onevent>
 	</state>
 
+	<state id="Timer" extends="Dialog">
+		<onentry>
+				<dialog:say>Setting timer for</dialog:say>
+				<dialog:say text="instruction.getAmount()"/>
+				<dialog:say text="instruction.getMeasurement()"/>
+				<exec>instruction.setTimer();</exec>
+				<goto state="timerReady"/>
+		</onentry>
+	</state>
+	
+	<state id="timerReady">
+		<onentry>
+			<dialog:listen/>
+			<if cond="instruction.isTimerReady()">
+				<dialog:say>Times up!!! Lets move on</dialog:say>
+				<goto state="MoveOn"/>
+			<else/>
+				<goto state="timerReady"/>
+			</if>
+		</onentry>
+		<onevent name="sense.user.speak" cond="event?:sem:no">
+			<dialog:say>It's</dialog:say>
+			<dialog:say text="instruction.getSeconds()"/>
+			<dialog:say>seconds left</dialog:say>
+		</onevent>
+	</state>
 	
 	<state id="Wait" extends="Dialog">
 	<onentry>
-		<dialog:say>Let me know when you are ready</dialog:say>
+		<dialog:say>Let me know when you are ready</dialog:say>		
 		<dialog:listen/>
 	</onentry>
 	<onevent name="sense.user.speak" cond="event?:sem:ready">
@@ -71,15 +123,6 @@
 	</state>
 	
 	<state id="Dialog">
-		<onevent name="sense.user.speak" cond="event?:sem:question">
-			<if cond="event:sem:question == 'measurement'">
-				<goto state="Measurement"/>
-			<elseif cond="event:sem:question == 'ingredient'"/>
-				<goto state="Ingredient"/>
-			<else/>
-				<dialog:say>Oh no</dialog:say>
-			</if>
-		</onevent>
 		<onevent name="sense.user.silence">
 			<dialog:say>How is it going</dialog:say>
 			<reentry/>

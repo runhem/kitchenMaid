@@ -10,6 +10,10 @@
  ******************************************************************************/
 package iristk.app.kitchenMaid;
 
+
+import java.util.Timer; 
+import java.util.TimerTask;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,12 +23,17 @@ import iristk.util.RandomList;
 public class Instruction {
 
 	//Declaration of variables
-	private  String id;
+	private String id;
 	private String question;
 	private String action;
 	private String ingredient;
 	private String measure;
 	private String container;
+	private Timer timer; 
+	private String time;
+	private String amount;
+	private boolean timeFinished; 
+	private String sec; 
 	
 	private String returnstring;
 	
@@ -40,20 +49,25 @@ public class Instruction {
 		
 		//If there are measurement, ingredient or container on line we create them here
 		if (cols.length > 1) {
-			measure = cols[1].trim();
+			amount = cols[1].trim();
 		}
-		if (cols.length > 2) {
-			ingredient = cols[2].trim();
+		if (cols.length > 2) {	
+			measure = cols[2].trim();
 		}
 		if (cols.length > 3) {
-			container = cols[3].trim();
+			ingredient = cols[3].trim();
+		}
+		if (cols.length > 4) {
+			container = cols[4].trim();
 		}
 	}
-	
 	
 	//Returns instruction on different formats depending on what it contains
 	public String getFullInstruction() {
 		returnstring = action;
+		if(amount != null){
+			returnstring = returnstring + " " + amount;
+		}
 		if(measure != null){
 			returnstring = returnstring + " " + measure;
 		}
@@ -79,6 +93,17 @@ public class Instruction {
 			}
 		}
 		
+		
+		//Returns the amount from the recipe if there is an amount
+		public String getAmount(){
+			if(amount != null){
+				return amount;
+			}
+			else{
+				return "no amount";
+			}
+		}
+		
 		//Checks if there is a measurement for the step, in that case returns the measurement
 		//Otherwise it returns a string saying "no measurement" that can be used as error handling in the flow
 		public String getMeasurement(){
@@ -99,6 +124,47 @@ public class Instruction {
 			else{
 				return "no container";
 			}
+		}
+		
+		//Returns true if the measurement is in minutes because that means that we should start a timer
+		public boolean getTimer(){
+				if (measure.equals("seconds")){
+					return true;
+				}
+				else{
+					return false;
+				}
+		}
+		
+		//Running timer
+		public void setTimer(){
+			timeFinished = false;
+			 timer =new Timer();
+			 timer.schedule(new TimerTask(){
+				public Integer seconds = Integer.parseInt(amount); 
+				 public void run() { 
+						if (seconds > 0) { 
+							System.out.println(seconds); 
+							seconds--; 
+							sec = Integer.toString(seconds);
+							} 
+						else { 
+							System.out.println("Time's up!");  
+							timer.cancel(); 
+							timeFinished = true;
+							} 
+						}
+				 
+			 }, 0, 1000); 
+		}
+		
+		//Returns the timeFinished variable that will be true if the timer is finished and otherwise false
+		public boolean isTimerReady(){
+			return timeFinished;
+		}
+		
+		public String getSeconds(){
+			return sec;
 		}
 		
 	// *** Look into how we should change this *** 
