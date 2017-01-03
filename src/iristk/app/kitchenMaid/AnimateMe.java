@@ -19,10 +19,14 @@ public class AnimateMe extends Frame implements Runnable {
 	
 	int grow = 1; // Variable to select if the animation should grow or decrease
 	
+	int seconds = 10;
+	String sec = Integer.toString(seconds);
+	
 	Color c = Color.blue;
 	
 	volatile boolean talk = true;
 	volatile boolean listen = false;
+	volatile boolean timer = true;
 	
 	Thread animator; // The thread that performs the animation
 	
@@ -41,10 +45,12 @@ public class AnimateMe extends Frame implements Runnable {
 		});
 	}
 
-	@Override
 	public void paint(Graphics g) {
 	    g.setColor(c);
-	    g.fillOval(x - r, y - r, r * 2, r * 2);   
+	    g.fillOval(x - r, y - r, r * 2, r * 2);
+	    Font font = new Font("Serif", Font.PLAIN, 50);
+	    g.setFont(font);
+	    g.drawString(sec, 40, 150); 
 	}
 	
 	public void animateTalk() {
@@ -71,8 +77,26 @@ public class AnimateMe extends Frame implements Runnable {
 		  repaint();
 	}
 
+	public void animateTimer(){
+		if (seconds > 0) {  
+			seconds--;
+			sec = Integer.toString(seconds);
+			repaint();
+		} else{ 
+			timer = false;
+		}
+	}	
+	
 	public void run() {
 		while(true){
+			if(timer){
+				animateTimer();			
+				try {
+					Thread.sleep(1000);
+				} // Wait 100 milliseconds
+				catch (InterruptedException e) {
+				} // Ignore interruptions			
+			}
 			while (talk) { // Loop until we're asked to stop
 				try {
 					Thread.sleep(70);
@@ -89,7 +113,16 @@ public class AnimateMe extends Frame implements Runnable {
 				} // Ignore interruptions
 		    }
 		}
-	}
+	}	
+	
+//Returns the timeFinished variable that will be true if the timer is finished and otherwise false
+//	public boolean timerRunning(){
+//		return timer;
+// 	}
+	
+//	public String getSeconds(){
+//		return sec;
+//	}
 	
 	public void setListen(){
 		listen = true;

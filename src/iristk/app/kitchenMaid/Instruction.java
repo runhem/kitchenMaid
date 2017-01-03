@@ -10,10 +10,7 @@
  ******************************************************************************/
 package iristk.app.kitchenMaid;
 
-import java.util.Arrays;
-import java.util.List;
 
-import iristk.util.RandomList;
 
 //Instruction class
 public class Instruction {
