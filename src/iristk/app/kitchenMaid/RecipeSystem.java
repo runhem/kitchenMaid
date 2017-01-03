@@ -52,7 +52,6 @@ public class RecipeSystem {
 		// Add the flow
 		//system.addModule(new FlowModule(new RecipeFlow(instructions, systemAgentFlow)));
 	    AnimateMe animation = new AnimateMe();  
-	    animation.setVisible(true);
 		
 		InstructionSet instructions = new InstructionSet(system.getPackageFile("recipe.txt"));
 	

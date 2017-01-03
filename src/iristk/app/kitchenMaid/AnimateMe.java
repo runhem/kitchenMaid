@@ -15,7 +15,7 @@ import java.awt.event.*;
 import java.awt.Graphics;
 
 public class AnimateMe extends Frame implements Runnable {
-	int x = 200, y= 200, r = 20; // Position and radius of the circle
+	int x = 300, y= 300, r = 55; // Position and radius of the circle
 	
 	int grow = 1; // Variable to select if the animation should grow or decrease
 	
@@ -23,7 +23,6 @@ public class AnimateMe extends Frame implements Runnable {
 	
 	volatile boolean talk = true;
 	volatile boolean listen = false;
-	volatile boolean detect = false;
 	
 	Thread animator; // The thread that performs the animation
 	
@@ -34,7 +33,7 @@ public class AnimateMe extends Frame implements Runnable {
 	}
 		
 	private void prepareGUI(){
-		setSize(400, 400);
+		setSize(600, 600);
 		addWindowListener(new WindowAdapter(){
 			public void windowClosing(WindowEvent windowEvent){
 				System.exit(0);
@@ -49,20 +48,19 @@ public class AnimateMe extends Frame implements Runnable {
 	}
 	
 	public void animateTalk() {
-	  r = 40;
-	  repaint();
+	  r = r;
 	} 
 	
 	public void animateListen() {
 		  if(grow == 0){
-			  if(r>30){
+			  if(r>55){
 				  r=r-1;
 			  }else{
 				  grow=1;
 				  r=r+1;
 			  }
 		  }else{
-			if(r<40){
+			if(r<70){
 				r=r+1;
 			}else{
 				grow=0;
@@ -74,22 +72,23 @@ public class AnimateMe extends Frame implements Runnable {
 	}
 
 	public void run() {
-	    while (talk) { // Loop until we're asked to stop
-	      animateTalk(); // Update and request redraw
-	      try {
-	        Thread.sleep(70);
-	      } // Wait 100 milliseconds
-	      catch (InterruptedException e) {
-	      } // Ignore interruptions
-	    }
-	    while (listen) { // Loop until we're asked to stop
-		      animateListen(); // Update and request redraw
-		      try {
-		        Thread.sleep(70);
-		      } // Wait 100 milliseconds
-		      catch (InterruptedException e) {
-		      } // Ignore interruptions
+		while(true){
+			while (talk) { // Loop until we're asked to stop
+				try {
+					Thread.sleep(70);
+				} // Wait 100 milliseconds
+				catch (InterruptedException e) {
+				} // Ignore interruptions
+			}
+			while (listen) { // Loop until we're asked to stop
+				animateListen(); // Update and request redraw
+				try {
+					Thread.sleep(50);
+				} // Wait 100 milliseconds
+				catch (InterruptedException e) {
+				} // Ignore interruptions
 		    }
+		}
 	}
 	
 	public void setListen(){
@@ -101,5 +100,6 @@ public class AnimateMe extends Frame implements Runnable {
 		listen = false;
 		talk = true;
 	}
+	
 	
 }

@@ -20,14 +20,12 @@ public class Instruction {
 
 	//Declaration of variables
 	private String id;
-	private String question;
 	private String action;
 	private String ingredient;
 	private String measure;
 	private String container;
 	
 	private String returnstring;
-	
 	
 	//Getting different parts of the intruction lines and storing them in the right variables
 	public Instruction(String id, String[] cols) {
