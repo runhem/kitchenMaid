@@ -48,10 +48,10 @@
 		<onentry>
 			<exec>animation.setTalk();</exec>			
 			<dialog:say text="instruction.getFullInstruction()"/>
-			<exec>animation.setListen();</exec>
 				<if cond="instruction.getTimer()">
 					<goto state="startTimer"/>
 				</if>
+			<exec>animation.setListen();</exec>
 			<dialog:listen/>
 		</onentry>
 		<onevent name="sense.user.speak" cond="event?:sem:confirm">
