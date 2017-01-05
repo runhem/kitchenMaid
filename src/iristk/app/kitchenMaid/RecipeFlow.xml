@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <flow name="RecipeFlow" package="iristk.app.kitchenMaid" 
-	initial="Start"	
+	initial="Greeting"	
 	xmlns="iristk.flow" 
 	xmlns:p="iristk.flow.param"
 	 
@@ -12,14 +12,20 @@
 	<var name="instruction" type="Instruction"/>
 	<var name="measure" type="Measurement"/>
 	
+	<state id="Greeting">
+	<onentry>
+	<dialog:say>Hi! I'm kitchenMaid <!--, your own personal baking assistant. I'm in the mood for baking today. Lets make som raspberry muffins.--></dialog:say>
+	<goto state="Start"/>
+	</onentry>
+	</state>
 
-	<state id="Start" extends="Dialog">
+	<state id="Start">
 		<onentry>
-			<dialog:say>Time to do some cool baking. Are you ready?</dialog:say>
+			<dialog:say>Are you ready to start?</dialog:say>
 			<dialog:listen/>
 		</onentry>
 		<onevent name="sense.user.speak" cond="event?:sem:confirm">
-			<dialog:say>Cool. Lets get this party started</dialog:say>
+			<dialog:say>Cool. Lets get this party started. <!-- I will now read you the instructions for the recipe. --> </dialog:say>
 			<goto state="MoveOn"/>				
 		</onevent>
 		<onevent name="sense.user.speak" cond="event?:sem:no">
@@ -27,7 +33,7 @@
 		</onevent>
 	</state>
 	
-	<state id="MoveOn" extends="Dialog">
+	<state id="MoveOn">
 		<onentry>
 			<if cond="instructions.endOfRecipe()">
 				<dialog:say>You are finished with the recipe. Good job.</dialog:say>
@@ -39,39 +45,21 @@
 		</onentry>
 	</state>
 	
-	<state id="Recipe" extends="Dialog">
+	<state id="Recipe" extends="Wait">
 		<onentry>
 			<dialog:say text="instruction.getFullInstruction()"/>
 				<if cond="instruction.getTimer()">
 					<goto state="startTimer"/>
 				</if>
-			<dialog:listen/>
-		</onentry>
-		<onevent name="sense.user.speak" cond="event?:sem:confirm">
 			<goto state="Wait"/>
-		</onevent>
-		<onevent name="sense.user.speak" cond="event?:sem:no">
-			<dialog:say>Okey, let me repeat</dialog:say>
-			<dialog:say>Now I'm reading the same step again</dialog:say>
-			<goto state="Recipe"/>
-		</onevent>
-		<onevent name="sense.user.speak" cond="event?:sem:question">
-			<if cond="event:sem:question == 'measurement'">
-				<goto state="Measurement"/>
-			<elseif cond="event:sem:question == 'ingredient'"/>
-				<goto state="Ingredient"/>
-			<else/>
-				<dialog:say>Oh no</dialog:say>
-			</if>
-		</onevent>
+		</onentry>
 	</state>
 	
-	<state id="startTimer" extends="Dialog">
+	<state id="startTimer">
 		<onentry>
-			<dialog:say>I will help you track the time. Let me know when to set the timer</dialog:say>
-			<dialog:listen/>
+			<dialog:prompt>I will help you track the time. Let me know when to start the timer</dialog:prompt>
 		</onentry>
-		<onevent name="sense.user.speak" cond="event?:sem:confirm">
+		<onevent name="sense.user.speak" cond="event?:sem:set">
 			<goto state="Timer"></goto>
 		</onevent>
 		<onevent name="sense.user.speak" cond="event?:sem:no">
@@ -80,7 +68,7 @@
 		</onevent>
 	</state>
 
-	<state id="Timer" extends="Dialog">
+	<state id="Timer">
 		<onentry>
 				<dialog:say>Setting timer for</dialog:say>
 				<dialog:say text="instruction.getAmount()"/>
@@ -107,41 +95,55 @@
 		</onevent>
 	</state>
 	
-	<state id="Wait" extends="Dialog">
-	<onentry>
-		<dialog:say>Let me know when you are ready</dialog:say>		
-		<dialog:listen/>
-	</onentry>
-	<onevent name="sense.user.speak" cond="event?:sem:ready">
-		<random>
-			<dialog:say>Good, lets move on</dialog:say>
-			<dialog:say>Awesome, time for the next step</dialog:say>
-			<dialog:say>Whoop whoop moving on</dialog:say>
-		</random>
-		<goto state="MoveOn"/>
-	</onevent>
-	</state>
-	
-	<state id="Dialog">
-		<onevent name="sense.user.silence">
-			<dialog:say>How is it going</dialog:say>
-			<reentry/>
-		</onevent>
+	<state id="Wait">
+		<onentry>
+			<dialog:say>Let me know when you are done with this step</dialog:say>		
+			<dialog:listen/>
+		</onentry>
 		<onevent name="sense.user.speak">
-			<dialog:say>I am sorry, I didn't get that.</dialog:say>
-			<reentry/>
+			<if cond="event?:sem:ready">
+				<random>
+					<dialog:say>Good, lets move on</dialog:say>
+					<dialog:say>Awesome, time for the next step</dialog:say>
+					<dialog:say>Whoop whoop moving on</dialog:say>
+				</random>
+				<goto state="MoveOn"/>	
+			<elseif cond="event?:sem:repeat"/>
+				<dialog:say>Okey, let me repeat the instruction</dialog:say>
+				<goto state="Recipe"/>
+			<elseif cond="event?:sem:question"/>
+				<if cond="event:sem:question == 'measurement'">
+					<goto state="Measurement"/>
+				<elseif cond="event:sem:question == 'ingredient'"/>
+					<goto state="Ingredient"/>
+				<elseif cond="event:sem:question == 'amount'"/>
+					<goto state="Amount"/>
+				<else/>
+					<dialog:say>Oh no</dialog:say>
+				</if>
+			<else/>
+				<goto state="Wait"/>
+			</if>
 		</onevent>
 	</state>	
 	
-	<state id="Measurement" extends="Dialog">
+	<state id="Measurement">
+		<onentry>
+			<dialog:say>Okey, let me repeat the measurement</dialog:say>
+			<dialog:say text="instruction.getMeasurement()"/>
+			<goto state="Wait"/>
+		</onentry>
+	</state>
+	
+	<state id="Amount">
 		<onentry>
 			<dialog:say>Okey, let me repeat the amount</dialog:say>
-			<dialog:say text="instruction.getMeasurement()"/>
+			<dialog:say text="instruction.getAmount()"/>
 			<goto state="Wait"/>
 		</onentry>
 	</state>		
 
-	<state id="Ingredient" extends="Dialog">
+	<state id="Ingredient">
 		<onentry>
 			<dialog:say>Okey, let me repeat the ingredient</dialog:say>
 			<dialog:say text="instruction.getIngredient()"/>
