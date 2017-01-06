@@ -29,7 +29,7 @@
 			<exec>animation.setListen();</exec>
 			<dialog:listen/>
 		</onentry>
-		<onevent name="sense.user.speak" cond="event?:sem:confirm">
+		<onevent name="sense.user.speak" cond="event?:sem:yes and !event?:sem:no">
 			<exec>animation.setTalk();</exec>
 			<dialog:say>Cool. Lets get this party started</dialog:say>
 			<goto state="MoveOn"/>				
@@ -68,7 +68,8 @@
 			<exec>animation.setListen();</exec>
 			<dialog:listen/>
 		</onentry>
-		<onevent name="sense.user.speak" cond="event?:sem:confirm">
+
+		<onevent name="sense.user.speak" cond="event?:sem:yes and !event?:sem:no and !event?:sem:ready">
 			<goto state="Wait"/>
 		</onevent>
 		<onevent name="sense.user.speak" cond="event?:sem:repeat">
@@ -85,7 +86,7 @@
 				<dialog:say>Oh no</dialog:say>
 			</if>
 		</onevent>
-		<onevent name="sense.user.speak" cond="event?:sem:ready">
+		<onevent name="sense.user.speak" cond="event?:sem:ready and !event?:sem:no">
 			<goto state="MoveOn"/>
 		</onevent>
 	</state>
@@ -136,8 +137,13 @@
 		<dialog:say>Let me know when you are done with this step</dialog:say>
 		<exec>animation.setListen();</exec>
 		<dialog:listen/>
-	</onentry>
-	<onevent name="sense.user.speak" cond="event?:sem:ready">
+	</onentry>	
+	<onevent name="sense.user.speak" cond="event?:sem:no">
+		<exec>animation.setTalk();</exec>
+		<dialog:say>Ok</dialog:say>
+		<goto state="Wait"/>
+	</onevent>
+	<onevent name="sense.user.speak" cond="event?:sem:ready and !event?:sem:no">
 		<exec>animation.setTalk();</exec>
 		<random>
 			<dialog:say>Good, lets move on</dialog:say>

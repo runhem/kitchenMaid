@@ -1,33 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<grammar xml:lang="en-US" version="1.0" root="root"
+<grammar xml:lang="en-US" version="1.0"
 	xmlns="http://www.w3.org/2001/06/grammar" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.w3.org/2001/06/grammar http://www.iristk.net/xml/srgs.xsd" tag-format="semantics/1.0">
 
-  <rule id="root" scope="public">
+  <rule id="yes" scope="public">
+  	<one-of>
+  		<item>yes</item>
+  		<item>okay</item>
+  		<item>sure</item>
+  		<item>all right</item>
+  		<item>yeah</item>  		
+  	</one-of>
+  	<tag>out.yes=1</tag>
+  </rule>
+  
+  <rule id="ready" scope="public">
+  	<one-of>
+  		<item>ready</item>
+  		<item>done</item>
+  		<item>next</item>
+  	</one-of>
+  	<tag>out.ready=1</tag>
+  </rule>
+  
+  <rule id="no" scope="public">
+  	<one-of>
+		<item>no</item>
+		<item>not</item>
+		<item>almost</item>
+		<item>soon</item>
+		<item>wait</item>
+		<item>not ready</item>
+	</one-of>
+	<tag>out.no=1</tag>
+  </rule>
+  
+  <rule id="other" scope="public">
 		<one-of>
-			<item>
-				<one-of>
-					<item>yes</item>
-					<item>okey</item>
-				</one-of>
-				<tag>out.confirm=1</tag>
-			</item>
-			<item>
-				<one-of>
-					<item>no</item>
-				</one-of>
-				<tag>out.no=1</tag>
-			</item>
-			<item>
-				<one-of>
-					<item>ready</item>
-					<item>I am ready</item>
-					<item>next</item>
-					<item>I'm done</item>
-					<item>done</item>
-				</one-of>
-				<tag>out.ready=1</tag>
-			</item>
 			<item>
 				<one-of>
 					<item>start</item>
@@ -54,6 +63,7 @@
 			<one-of>
 				<item>amount_</item>
 				<item>many_</item>
+				<item>much_</item>
 			</one-of>
 			<tag>out.question="measurement"</tag>
 		</item>
