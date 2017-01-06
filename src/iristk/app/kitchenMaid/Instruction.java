@@ -23,7 +23,7 @@ import iristk.util.RandomList;
 public class Instruction {
 
 	//Declaration of variables
-	private String id;
+	private String id; 
 	private String action;
 	private String ingredient;
 	private String measure;

@@ -30,6 +30,12 @@
 				</one-of>
 				<tag>out.ready=1</tag>
 			</item>
+			<item>
+				<one-of>
+					<item>Hey kitchenMaid</item>
+				</one-of>
+				<tag>out.wakeUp=1</tag>
+			</item>
 		<item>
 			<one-of>
 				<item>how much_</item>

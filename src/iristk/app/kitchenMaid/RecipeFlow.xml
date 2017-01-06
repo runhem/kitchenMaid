@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <flow name="RecipeFlow" package="iristk.app.kitchenMaid" 
-	initial="Start"	
+	initial="goAhead"	
 	xmlns="iristk.flow" 
 	xmlns:p="iristk.flow.param"
 	 
@@ -14,6 +14,18 @@
 	<var name="instruction" type="Instruction"/>
 	<var name="measure" type="Measurement"/>
 
+	<state id="goAhead">
+		<onentry>
+			<dialog:listen/>
+		</onentry>
+		<onevent name="sense.user.speak"> 
+			<if cond="event?:sem:wakeUp">
+				<goto state="Start"/>
+			<else/>
+				<goto state="goAhead"/>
+			</if>
+		</onevent>
+	</state>
 	<state id="Start" extends="Dialog">
 		<onentry>
 		    <exec>animation.setVisible(true);</exec>
