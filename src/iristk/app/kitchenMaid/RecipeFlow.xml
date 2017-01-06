@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <flow name="RecipeFlow" package="iristk.app.kitchenMaid" 
-	initial="Start"	
+	initial="Greeting"	
 	xmlns="iristk.flow" 
 	xmlns:p="iristk.flow.param"
 	 
@@ -14,10 +14,18 @@
 	<var name="instruction" type="Instruction"/>
 	<var name="measure" type="Measurement"/>
 
+
+	<state id="Greeting">
+		<onentry>
+			<dialog:say>Hi! I'm kitchenMaid <!--, your own personal baking assistant. I'm in the mood for baking today. Lets make some raspberry muffins.--></dialog:say>
+			<goto state="Start"/>
+		</onentry>
+	</state>
+	
 	<state id="Start" extends="Dialog">
 		<onentry>
 		    <exec>animation.setVisible(true);</exec>
-			<dialog:say>Time to do some cool baking. Are you ready?</dialog:say>
+			<dialog:say>Are you ready to start?</dialog:say>
 			<exec>animation.setListen();</exec>
 			<dialog:listen/>
 		</onentry>
@@ -57,7 +65,7 @@
 		<onevent name="sense.user.speak" cond="event?:sem:confirm">
 			<goto state="Wait"/>
 		</onevent>
-		<onevent name="sense.user.speak" cond="event?:sem:no">
+		<onevent name="sense.user.speak" cond="event?:sem:repeat">
 			<exec>animation.setTalk();</exec>
 			<dialog:say>Okey, let me repeat</dialog:say>
 			<goto state="Recipe"/>
@@ -71,14 +79,16 @@
 				<dialog:say>Oh no</dialog:say>
 			</if>
 		</onevent>
+		<onevent name="sense.user.speak" cond="event?:sem:ready">
+			<goto state="MoveOn"/>
+		</onevent>
 	</state>
 	
 	<state id="startTimer" extends="Dialog">
 		<onentry>
-			<dialog:say>I will help you track the time. Let me know when to set the timer</dialog:say>
-			<dialog:listen/>
+			<dialog:prompt>I will help you track the time. Let me know when to set the timer</dialog:prompt>
 		</onentry>
-		<onevent name="sense.user.speak" cond="event?:sem:confirm">
+		<onevent name="sense.user.speak" cond="event?:sem:start">
 			<goto state="Timer"></goto>
 		</onevent>
 		<onevent name="sense.user.speak" cond="event?:sem:no">
@@ -107,7 +117,7 @@
 				<goto state="timerReady"/>
 			</if>
 		</onentry>
-		<onevent name="sense.user.speak" cond="event?:sem:no">
+		<onevent name="sense.user.speak" cond="event?:sem:timer">
 			<dialog:say>It's</dialog:say>
 			<dialog:say text="instruction.getSeconds()"/>
 			<dialog:say>seconds left</dialog:say>
@@ -117,7 +127,7 @@
 	<state id="Wait" extends="Dialog">
 	<onentry>
 		<exec>animation.setTalk();</exec>	
-		<dialog:say>Let me know when you are ready</dialog:say>
+		<dialog:say>Let me know when you are done with this step</dialog:say>
 		<exec>animation.setListen();</exec>
 		<dialog:listen/>
 	</onentry>
