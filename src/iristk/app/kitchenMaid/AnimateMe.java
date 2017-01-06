@@ -18,15 +18,19 @@ public class AnimateMe extends Frame implements Runnable {
 	int x = 300, y= 300, r = 55; // Position and radius of the circle
 	
 	int grow = 1; // Variable to select if the animation should grow or decrease
-	 
-	int seconds = 10;
-	String sec = Integer.toString(seconds);
+  
+	int seconds = 0;
+	String sec = "";
+	String min = "";
+	
+	Graphics g; 
+
 	
 	Color c = Color.blue;
 	
 	volatile boolean talk = true;
 	volatile boolean listen = false;
-	volatile boolean timer = true;
+	volatile boolean timer = false;
 	
 	Thread animator; // The thread that performs the animation
 	
@@ -59,9 +63,10 @@ public class AnimateMe extends Frame implements Runnable {
 	public void paint(Graphics g) {
 	    g.setColor(c);
 	    g.fillOval(x - r, y - r, r * 2, r * 2);
-//	    Font font = new Font("Serif", Font.PLAIN, 50);
-//	    g.setFont(font);
-//	    g.drawString(sec, 40, 150); 
+	    
+	    Font font = new Font("Serif", Font.PLAIN, 50);
+	    g.setFont(font);
+	    g.drawString(min + ":" + sec, 40, 150); 
 	}
 	 
 	public void animateTalk() {
@@ -88,52 +93,60 @@ public class AnimateMe extends Frame implements Runnable {
 		  repaint();
 	}
 
+	public void setTimer(String time){
+		timer = true;
+				
+		seconds = Integer.parseInt(time);
+		sec = Integer.toString(Math.round(seconds % 60));	
+		min = Integer.toString(Math.round((seconds/60) % 60));  
+
+		repaint();
+	}
+	
 	public void animateTimer(){
 		if (seconds > 0) {  
 			seconds--;
-			sec = Integer.toString(seconds);
+			
+			sec = Integer.toString(Math.round(seconds % 60));	
+			min = Integer.toString(Math.round((seconds/60) % 60));
+			
 			repaint();
 		} else{ 
 			timer = false;
 		}
 	}	
-	
+	 
 	public void run() {
+		int i = 0;
 		while(true){
-//			if(timer){
-//				animateTimer();			
-//				try {
-//					Thread.sleep(1000);
-//				} // Wait 100 milliseconds
-//				catch (InterruptedException e) {
-//				} // Ignore interruptions			
-//			}
-			while (talk) { // Loop until we're asked to stop
-				try {
-					Thread.sleep(70);
-				} // Wait 100 milliseconds
-				catch (InterruptedException e) {
-				} // Ignore interruptions
-			}
-			while (listen) { // Loop until we're asked to stop
+			if(i == 10){
+					animateTimer();
+					i = 0;
+				}
+			if(listen) { // Loop until we're asked to stop
 				animateListen(); // Update and request redraw
-				try {
-					Thread.sleep(50);
-				} // Wait 100 milliseconds
-				catch (InterruptedException e) {
-				} // Ignore interruptions
-		    }
+			}
+			try {
+				i ++;
+				Thread.sleep(100);
+			} // Wait 100 milliseconds
+			catch (InterruptedException e) {
+			} // Ignore interruptions
 		}
-	}	
+	}
 	
-//Returns the timeFinished variable that will be true if the timer is finished and otherwise false
-//	public boolean timerRunning(){
-//		return timer;
-// 	}
+	//Returns the timer boolean that returns true if the timer is running and false if the timer is finished
+	public boolean timerReady(){
+		if(timer){
+			return false;
+		}else{
+			return true;
+		}
+ 	}
 	
-//	public String getSeconds(){
-//		return sec;
-//	}
+	public String returnSeconds(){
+		return min + "minutes and" + sec + "seconds";
+	}
 	
 	public void setListen(){
 		listen = true;

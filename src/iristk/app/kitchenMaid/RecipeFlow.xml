@@ -104,15 +104,15 @@
 				<dialog:say>Setting timer for</dialog:say>
 				<dialog:say text="instruction.getAmount()"/>
 				<dialog:say text="instruction.getMeasurement()"/>
-				<exec>instruction.setTimer();</exec>
+				<exec>animation.setTimer(instruction.getAmount());</exec>
 				<goto state="timerReady"/>
-		</onentry>
+		</onentry> 
 	</state>
 	
 	<state id="timerReady">
 		<onentry>
 			<dialog:listen/>
-			<if cond="instruction.isTimerReady()">
+			<if cond="animation.timerReady()">
 				<dialog:say>Times up!!! Lets move on</dialog:say>
 				<goto state="MoveOn"/>
 			<else/>
@@ -121,7 +121,7 @@
 		</onentry>
 		<onevent name="sense.user.speak" cond="event?:sem:no">
 			<dialog:say>It's</dialog:say>
-			<dialog:say text="instruction.getSeconds()"/>
+			<dialog:say text="animation.returnSeconds()"/>
 			<dialog:say>seconds left</dialog:say>
 		</onevent>
 	</state>
