@@ -18,12 +18,13 @@ public class AnimateMe extends Frame implements Runnable {
 	int x = 300, y= 300, r = 55; // Position and radius of the circle
 	
 	int grow = 1; // Variable to select if the animation should grow or decrease
-	
+  
 	int seconds = 0;
 	String sec = "";
 	String min = "";
 	
 	Graphics g; 
+
 	
 	Color c = Color.blue;
 	

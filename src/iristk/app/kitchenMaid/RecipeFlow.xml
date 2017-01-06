@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <flow name="RecipeFlow" package="iristk.app.kitchenMaid" 
-	initial="Start"	
+	initial="goAhead"	
 	xmlns="iristk.flow" 
 	xmlns:p="iristk.flow.param"
 	 
@@ -14,6 +14,18 @@
 	<var name="instruction" type="Instruction"/>
 	<var name="measure" type="Measurement"/>
 
+	<state id="goAhead">
+		<onentry>
+			<dialog:listen/>
+		</onentry>
+		<onevent name="sense.user.speak"> 
+			<if cond="event?:sem:wakeUp">
+				<goto state="Start"/>
+			<else/>
+				<goto state="goAhead"/>
+			</if>
+		</onevent>
+	</state>
 	<state id="Start" extends="Dialog">
 		<onentry>
 		    <exec>animation.setVisible(true);</exec>
@@ -48,10 +60,10 @@
 		<onentry>
 			<exec>animation.setTalk();</exec>			
 			<dialog:say text="instruction.getFullInstruction()"/>
-			<exec>animation.setListen();</exec>
 				<if cond="instruction.getTimer()">
 					<goto state="startTimer"/>
 				</if>
+			<exec>animation.setListen();</exec>
 			<dialog:listen/>
 		</onentry>
 		<onevent name="sense.user.speak" cond="event?:sem:confirm">
@@ -139,9 +151,14 @@
 			<reentry/>
 		</onevent>
 		<onevent name="sense.user.speak">
-			<exec>animation.setTalk();</exec>
-			<dialog:say>I am sorry, I didn't get that.</dialog:say>
-			<reentry/>
+			<if cond="event?:sem:soGood">
+				<dialog:say>I'm glad you like it. The recipe is from my mom.</dialog:say>
+				<reentry/>
+			<else/>
+				<exec>animation.setTalk();</exec>
+				<dialog:say>I am sorry, I didn't get that.</dialog:say>
+				<reentry/>
+			</if>
 		</onevent>
 	</state>	
 	
