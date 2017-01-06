@@ -24,7 +24,6 @@ public class Instruction {
 
 	//Declaration of variables
 	private String id;
-	private String question;
 	private String action;
 	private String ingredient;
 	private String measure;
@@ -36,7 +35,6 @@ public class Instruction {
 	private String sec; 
 	
 	private String returnstring;
-	
 	
 	//Getting different parts of the intruction lines and storing them in the right variables
 	public Instruction(String id, String[] cols) {
@@ -184,6 +182,5 @@ public class Instruction {
 	public String getId() {
 		return id;
 	}
-	
 	
 }
