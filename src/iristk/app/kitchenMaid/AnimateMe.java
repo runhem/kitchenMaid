@@ -63,7 +63,7 @@ public class AnimateMe extends Frame implements Runnable {
 //	    g.setFont(font);
 //	    g.drawString(sec, 40, 150); 
 	}
-	
+	 
 	public void animateTalk() {
 	  r = r;
 	} 

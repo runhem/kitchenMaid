@@ -151,9 +151,14 @@
 			<reentry/>
 		</onevent>
 		<onevent name="sense.user.speak">
-			<exec>animation.setTalk();</exec>
-			<dialog:say>I am sorry, I didn't get that.</dialog:say>
-			<reentry/>
+			<if cond="event?:sem:soGood">
+				<dialog:say>I'm glad you like it. The recipe is from my mom.</dialog:say>
+				<reentry/>
+			<else/>
+				<exec>animation.setTalk();</exec>
+				<dialog:say>I am sorry, I didn't get that.</dialog:say>
+				<reentry/>
+			</if>
 		</onevent>
 	</state>	
 	
