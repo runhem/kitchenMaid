@@ -95,7 +95,7 @@ public class AnimateMe extends Frame implements Runnable {
 	public void setTimer(String time){
 		timer = true;
 				
-		seconds = Integer.parseInt(time) * 60;
+		seconds = Integer.parseInt(time);
 		sec = Integer.toString(Math.round(seconds % 60));	
 		min = Integer.toString(Math.round((seconds/60) % 60));  
 
@@ -114,7 +114,7 @@ public class AnimateMe extends Frame implements Runnable {
 			timer = false;
 		}
 	}	
-	
+	 
 	public void run() {
 		int i = 0;
 		while(true){
@@ -144,7 +144,7 @@ public class AnimateMe extends Frame implements Runnable {
  	}
 	
 	public String returnSeconds(){
-		return sec;
+		return min + "minutes and" + sec + "seconds";
 	}
 	
 	public void setListen(){

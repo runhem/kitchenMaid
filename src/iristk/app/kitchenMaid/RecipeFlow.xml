@@ -109,7 +109,7 @@
 		</onentry>
 		<onevent name="sense.user.speak" cond="event?:sem:no">
 			<dialog:say>It's</dialog:say>
-			<dialog:say text="instruction.getSeconds()"/>
+			<dialog:say text="animation.returnSeconds()"/>
 			<dialog:say>seconds left</dialog:say>
 		</onevent>
 	</state>
