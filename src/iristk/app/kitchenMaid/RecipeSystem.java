@@ -10,8 +10,11 @@
  ******************************************************************************/
 package iristk.app.kitchenMaid;
 
+import iristk.speech.OpenVocabularyContext;
+import iristk.speech.SemanticGrammarContext;
 import iristk.speech.SpeechGrammarContext;
 import iristk.speech.Voice.Gender;
+import iristk.speech.nuancecloud.NuanceCloudRecognizerFactory;
 import iristk.speech.windows.WindowsRecognizerFactory;
 import iristk.speech.windows.WindowsSynthesizer;
 import iristk.system.IrisUtils;
@@ -44,7 +47,7 @@ public class RecipeSystem {
 		system.setupGUI();
 		
 		// Add the recognizer to the system
-		system.setupRecognizer(new WindowsRecognizerFactory());
+		system.setupRecognizer(new NuanceCloudRecognizerFactory());
 		
 		// Add a synthesizer to the system		
 		system.setupSynthesizer(new WindowsSynthesizer(), Gender.FEMALE);
@@ -59,7 +62,8 @@ public class RecipeSystem {
 		
 
 		// Load a grammar in the recognizer
-		system.loadContext("default", new SpeechGrammarContext(new SRGSGrammar(system.getPackageFile("RecipeGrammar.xml"))));
+		system.loadContext("default", new OpenVocabularyContext(system.getLanguage()));
+		system.loadContext("default", new SemanticGrammarContext(new SRGSGrammar(getClass().getResource("RecipeGrammar.xml").toURI())));
 		
 		// Start the interaction
 		system.sendStartSignal();

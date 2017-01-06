@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <flow name="RecipeFlow" package="iristk.app.kitchenMaid" 
+
 	initial="goAhead"	
 	xmlns="iristk.flow" 
 	xmlns:p="iristk.flow.param"
@@ -14,6 +15,7 @@
 	<var name="instruction" type="Instruction"/>
 	<var name="measure" type="Measurement"/>
 
+
 	<state id="goAhead">
 		<onentry>
 			<dialog:listen/>
@@ -26,14 +28,16 @@
 			</if>
 		</onevent>
 	</state>
+
 	<state id="Start" extends="Dialog">
 		<onentry>
 		    <exec>animation.setVisible(true);</exec>
 			<dialog:say>Hello. All right. Do you have everything you need?</dialog:say>
+
 			<exec>animation.setListen();</exec>
 			<dialog:listen/>
 		</onentry>
-		<onevent name="sense.user.speak" cond="event?:sem:confirm">
+		<onevent name="sense.user.speak" cond="event?:sem:yes and !event?:sem:no">
 			<exec>animation.setTalk();</exec>
 			<dialog:say>Cool. Lets get this party started</dialog:say>
 			<goto state="MoveOn"/>				
@@ -51,28 +55,35 @@
 				<goto state="End"/>
 			<else/>
 				<exec>instruction = instructions.next();</exec>
-				<goto state="Recipe"/>
+				<goto state="readInstruction"/>
 			</if>
 		</onentry>
 	</state>
 	
-	<state id="Recipe" extends="Dialog">
-		<onentry>
+	<state id="readInstruction">
+			<onentry>
 			<exec>animation.setTalk();</exec>			
 			<dialog:say text="instruction.getFullInstruction()"/>
 				<if cond="instruction.getTimer()">
 					<goto state="startTimer"/>
 				</if>
+			<goto state="Recipe"/>
+		</onentry>
+	</state>
+	
+	<state id="Recipe" extends="Dialog">
+		<onentry>
 			<exec>animation.setListen();</exec>
 			<dialog:listen/>
 		</onentry>
-		<onevent name="sense.user.speak" cond="event?:sem:confirm">
+
+		<onevent name="sense.user.speak" cond="event?:sem:yes and !event?:sem:no and !event?:sem:ready">
 			<goto state="Wait"/>
 		</onevent>
-		<onevent name="sense.user.speak" cond="event?:sem:no">
+		<onevent name="sense.user.speak" cond="event?:sem:repeat">
 			<exec>animation.setTalk();</exec>
 			<dialog:say>Okey, let me repeat</dialog:say>
-			<goto state="Recipe"/>
+			<goto state="readInstruction"/>
 		</onevent>
 		<onevent name="sense.user.speak" cond="event?:sem:question">
 			<if cond="event:sem:question == 'measurement'">
@@ -83,14 +94,16 @@
 				<dialog:say>Oh no</dialog:say>
 			</if>
 		</onevent>
+		<onevent name="sense.user.speak" cond="event?:sem:ready and !event?:sem:no">
+			<goto state="MoveOn"/>
+		</onevent>
 	</state>
 	
 	<state id="startTimer" extends="Dialog">
 		<onentry>
-			<dialog:say>I will help you track the time. Let me know when to set the timer</dialog:say>
-			<dialog:listen/>
+			<dialog:prompt>I will help you track the time. Let me know when to set the timer</dialog:prompt>
 		</onentry>
-		<onevent name="sense.user.speak" cond="event?:sem:confirm">
+		<onevent name="sense.user.speak" cond="event?:sem:start">
 			<goto state="Timer"></goto>
 		</onevent>
 		<onevent name="sense.user.speak" cond="event?:sem:no">
@@ -119,7 +132,7 @@
 				<goto state="timerReady"/>
 			</if>
 		</onentry>
-		<onevent name="sense.user.speak" cond="event?:sem:no">
+		<onevent name="sense.user.speak" cond="event?:sem:timer">
 			<dialog:say>It's</dialog:say>
 			<dialog:say text="animation.returnSeconds()"/>
 			<dialog:say>seconds left</dialog:say>
@@ -129,11 +142,16 @@
 	<state id="Wait" extends="Dialog">
 	<onentry>
 		<exec>animation.setTalk();</exec>	
-		<dialog:say>Let me know when you are ready</dialog:say>
+		<dialog:say>Let me know when you are done with this step</dialog:say>
 		<exec>animation.setListen();</exec>
 		<dialog:listen/>
-	</onentry>
-	<onevent name="sense.user.speak" cond="event?:sem:ready">
+	</onentry>	
+	<onevent name="sense.user.speak" cond="event?:sem:no">
+		<exec>animation.setTalk();</exec>
+		<dialog:say>Ok</dialog:say>
+		<goto state="Wait"/>
+	</onevent>
+	<onevent name="sense.user.speak" cond="event?:sem:ready and !event?:sem:no">
 		<exec>animation.setTalk();</exec>
 		<random>
 			<dialog:say>Good, lets move on</dialog:say>
@@ -167,7 +185,7 @@
 			<exec>animation.setTalk();</exec>		
 			<dialog:say>Let me repeat the amount</dialog:say>
 			<dialog:say text="instruction.getMeasurement()"/>
-			<goto state="Wait"/>
+			<goto state="Recipe"/>
 		</onentry>
 	</state>		
 
@@ -176,7 +194,7 @@
 			<exec>animation.setTalk();</exec>
 			<dialog:say>Let me repeat the ingredient</dialog:say>
 			<dialog:say text="instruction.getIngredient()"/>
-			<goto state="Wait"/>
+			<goto state="Recipe"/>
 		</onentry>
 	</state>	
 	
