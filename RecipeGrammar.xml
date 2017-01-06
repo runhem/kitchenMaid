@@ -8,6 +8,10 @@
 			<item>
 				<one-of>
 					<item>yes</item>
+					<item>okay</item>
+					<item>okey</item>
+					<item>ok</item>
+					<item>all right</item>
 				</one-of>
 				<tag>out.confirm=1</tag>
 			</item>
@@ -19,62 +23,29 @@
 			</item>
 			<item>
 				<one-of>
-					<item>okay</item>
-					<item>okey</item>
-					<item>all right</item>
-					<item>ok</item>
-					<item>okidoki</item>
-				</one-of>
-				<tag>out.okay=1</tag>
-			</item>
-			<item>
-				<one-of>
+					<item>ready</item>
+					<item>I am ready</item>
+					<item>next</item>
 					<item>done</item>
-					<item>I'm done</item>
-					<item>done now</item>
 				</one-of>
 				<tag>out.ready=1</tag>
 			</item>
-			<item>
-				<one-of>
-					<item>start timer</item>
-					<item>start</item>
-					<item>start timer now</item>
-				</one-of>
-				<tag>out.set=1</tag>
-			</item>
-			<item>
-				<one-of>
-					<item>can you say that again</item>
-					<item>again</item>
-					<item>again please</item>
-				</one-of>
-				<tag>out.repeat=1</tag>
-			</item>
-			<item>
-				<one-of>
-					<item>unit_</item>
-					<item>what unit_</item>
-					<item>measurement_</item>
-					<item>measure_</item>
-				</one-of>
-				<tag>out.question="measurement"</tag>
-			</item>
-			<item>
-				<one-of>
-					<item>much_</item>
-					<item>amount_</item>
-					<item>many_</item>
-				</one-of>
-				<tag>out.question="amount"</tag>
-			</item>
-		 	<item>
-				<one-of>
-					<item>ingredient_</item>
-					<item>egg_</item>
-				</one-of>
-				<tag>out.question="ingredient"</tag>
-			</item>
+		<item>
+			<one-of>
+				<item>how much_</item>
+				<item>amount_</item>
+				<item>how many_</item>
+			</one-of>
+			<tag>out.question="measurement"</tag>
+		</item>
+	 	<item>
+			<one-of>
+				<item>ingredient_</item>
+				<item>egg_</item>
+				<item>what_</item>
+			</one-of>
+			<tag>out.question="ingredient"</tag>
+		</item>
  	 	</one-of>
  	 	</rule>
  	 
