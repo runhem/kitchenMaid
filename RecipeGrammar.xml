@@ -30,6 +30,23 @@
 				</one-of>
 				<tag>out.ready=1</tag>
 			</item>
+			<item>
+				<one-of>
+					<item>Hey kitchenMaid</item>
+				</one-of>
+				<tag>out.wakeUp=1</tag>
+			</item>
+			<item>
+				<one-of>
+					<item>This is so good</item>
+					<item>Yummy</item>
+					<item>Yummy in my tummy</item>
+					<item>tastes good</item>
+					<item>Mmmm</item>
+					<item>so good</item>
+				</one-of>
+				<tag>out.soGood=1</tag>
+			</item>
 		<item>
 			<one-of>
 				<item>how much_</item>
