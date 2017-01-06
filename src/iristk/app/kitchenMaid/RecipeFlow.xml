@@ -47,18 +47,24 @@
 				<goto state="End"/>
 			<else/>
 				<exec>instruction = instructions.next();</exec>
-				<goto state="Recipe"/>
+				<goto state="readInstruction"/>
 			</if>
 		</onentry>
 	</state>
 	
-	<state id="Recipe" extends="Dialog">
-		<onentry>
+	<state id="readInstruction">
+			<onentry>
 			<exec>animation.setTalk();</exec>			
 			<dialog:say text="instruction.getFullInstruction()"/>
 				<if cond="instruction.getTimer()">
 					<goto state="startTimer"/>
 				</if>
+			<goto state="Recipe"/>
+		</onentry>
+	</state>
+	
+	<state id="Recipe" extends="Dialog">
+		<onentry>
 			<exec>animation.setListen();</exec>
 			<dialog:listen/>
 		</onentry>
@@ -68,7 +74,7 @@
 		<onevent name="sense.user.speak" cond="event?:sem:repeat">
 			<exec>animation.setTalk();</exec>
 			<dialog:say>Okey, let me repeat</dialog:say>
-			<goto state="Recipe"/>
+			<goto state="readInstruction"/>
 		</onevent>
 		<onevent name="sense.user.speak" cond="event?:sem:question">
 			<if cond="event:sem:question == 'measurement'">
@@ -160,7 +166,7 @@
 			<exec>animation.setTalk();</exec>		
 			<dialog:say>Let me repeat the amount</dialog:say>
 			<dialog:say text="instruction.getMeasurement()"/>
-			<goto state="Wait"/>
+			<goto state="Recipe"/>
 		</onentry>
 	</state>		
 
@@ -169,7 +175,7 @@
 			<exec>animation.setTalk();</exec>
 			<dialog:say>Let me repeat the ingredient</dialog:say>
 			<dialog:say text="instruction.getIngredient()"/>
-			<goto state="Wait"/>
+			<goto state="Recipe"/>
 		</onentry>
 	</state>	
 	

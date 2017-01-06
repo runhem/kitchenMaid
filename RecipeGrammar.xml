@@ -8,6 +8,7 @@
 			<item>
 				<one-of>
 					<item>yes</item>
+					<item>okey</item>
 				</one-of>
 				<tag>out.confirm=1</tag>
 			</item>
