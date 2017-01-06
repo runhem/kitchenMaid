@@ -23,7 +23,7 @@ public class InstructionSet extends ArrayList<Instruction> {
 	private static Logger logger = IrisUtils.getLogger(InstructionSet.class);
 	
 	private int n = 0; //counter to see where we are
-	
+	 
 	//Creating a set of instructions
 	public InstructionSet(InputStream questionFile) throws IOException {
 		try {	

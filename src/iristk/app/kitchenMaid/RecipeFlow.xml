@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <flow name="RecipeFlow" package="iristk.app.kitchenMaid" 
-	initial="Greeting"	
+
+	initial="goAhead"	
 	xmlns="iristk.flow" 
 	xmlns:p="iristk.flow.param"
 	 
@@ -15,17 +16,24 @@
 	<var name="measure" type="Measurement"/>
 
 
-	<state id="Greeting">
+	<state id="goAhead">
 		<onentry>
-			<dialog:say>Hi! I'm kitchenMaid <!--, your own personal baking assistant. I'm in the mood for baking today. Lets make some raspberry muffins.--></dialog:say>
-			<goto state="Start"/>
+			<dialog:listen/>
 		</onentry>
+		<onevent name="sense.user.speak"> 
+			<if cond="event?:sem:wakeUp">
+				<goto state="Start"/>
+			<else/>
+				<goto state="goAhead"/>
+			</if>
+		</onevent>
 	</state>
-	
+
 	<state id="Start" extends="Dialog">
 		<onentry>
 		    <exec>animation.setVisible(true);</exec>
-			<dialog:say>Are you ready to start?</dialog:say>
+			<dialog:say>Hello. All right. Do you have everything you need?</dialog:say>
+
 			<exec>animation.setListen();</exec>
 			<dialog:listen/>
 		</onentry>
@@ -109,15 +117,15 @@
 				<dialog:say>Setting timer for</dialog:say>
 				<dialog:say text="instruction.getAmount()"/>
 				<dialog:say text="instruction.getMeasurement()"/>
-				<exec>instruction.setTimer();</exec>
+				<exec>animation.setTimer(instruction.getAmount());</exec>
 				<goto state="timerReady"/>
-		</onentry>
+		</onentry> 
 	</state>
 	
 	<state id="timerReady">
 		<onentry>
 			<dialog:listen/>
-			<if cond="instruction.isTimerReady()">
+			<if cond="animation.timerReady()">
 				<dialog:say>Times up!!! Lets move on</dialog:say>
 				<goto state="MoveOn"/>
 			<else/>
@@ -126,7 +134,7 @@
 		</onentry>
 		<onevent name="sense.user.speak" cond="event?:sem:timer">
 			<dialog:say>It's</dialog:say>
-			<dialog:say text="instruction.getSeconds()"/>
+			<dialog:say text="animation.returnSeconds()"/>
 			<dialog:say>seconds left</dialog:say>
 		</onevent>
 	</state>
@@ -161,9 +169,14 @@
 			<reentry/>
 		</onevent>
 		<onevent name="sense.user.speak">
-			<exec>animation.setTalk();</exec>
-			<dialog:say>I am sorry, I didn't get that.</dialog:say>
-			<reentry/>
+			<if cond="event?:sem:soGood">
+				<dialog:say>I'm glad you like it. The recipe is from my mom.</dialog:say>
+				<reentry/>
+			<else/>
+				<exec>animation.setTalk();</exec>
+				<dialog:say>I am sorry, I didn't get that.</dialog:say>
+				<reentry/>
+			</if>
 		</onevent>
 	</state>	
 	
