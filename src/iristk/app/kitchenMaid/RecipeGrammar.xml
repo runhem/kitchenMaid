@@ -46,6 +46,18 @@
 			</item>
 			<item>
 				<one-of>
+					<item>Hey KitchenMaid</item>
+				</one-of>
+				<tag>out.wakeUp=1</tag>
+			</item>
+			<item>
+				<one-of>
+					<item>so good</item>
+				</one-of>
+				<tag>out.soGood=1</tag>
+			</item>
+			<item>
+				<one-of>
 					<item>timer</item>
 					<item>time</item>
 				</one-of>

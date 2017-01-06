@@ -71,7 +71,7 @@ public class AnimateMe extends Frame implements Runnable {
 	 
 	public void animateTalk() {
 	  r = r;
-	} 
+	}  
 	
 	public void animateListen() {
 		  if(grow == 0){

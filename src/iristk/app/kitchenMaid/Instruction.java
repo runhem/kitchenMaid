@@ -33,7 +33,7 @@ public class Instruction {
 	private String amount;
 	private boolean timeFinished; 
 	private String sec; 
-	
+	 
 	private String returnstring;
 	
 	//Getting different parts of the intruction lines and storing them in the right variables
