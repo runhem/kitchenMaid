@@ -21,6 +21,7 @@ public class AnimateMe extends Frame implements Runnable {
 	
 	int seconds = 0;
 	String sec = "";
+	String min = "";
 	
 	Graphics g; 
 	
@@ -64,9 +65,9 @@ public class AnimateMe extends Frame implements Runnable {
 	    
 	    Font font = new Font("Serif", Font.PLAIN, 50);
 	    g.setFont(font);
-	    g.drawString(sec, 40, 150); 
+	    g.drawString(min + ":" + sec, 40, 150); 
 	}
-	
+	 
 	public void animateTalk() {
 	  r = r;
 	} 
@@ -93,15 +94,21 @@ public class AnimateMe extends Frame implements Runnable {
 
 	public void setTimer(String time){
 		timer = true;
-		seconds = Integer.parseInt(time);
-		sec=Integer.toString(seconds);
+				
+		seconds = Integer.parseInt(time) * 60;
+		sec = Integer.toString(Math.round(seconds % 60));	
+		min = Integer.toString(Math.round((seconds/60) % 60));  
+
 		repaint();
 	}
-
+	
 	public void animateTimer(){
 		if (seconds > 0) {  
 			seconds--;
-			sec = Integer.toString(seconds);
+			
+			sec = Integer.toString(Math.round(seconds % 60));	
+			min = Integer.toString(Math.round((seconds/60) % 60));
+			
 			repaint();
 		} else{ 
 			timer = false;

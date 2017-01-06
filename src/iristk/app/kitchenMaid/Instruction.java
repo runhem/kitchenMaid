@@ -21,7 +21,7 @@ import iristk.util.RandomList;
 
 //Instruction class
 public class Instruction {
-
+ 
 	//Declaration of variables
 	private String id;
 	private String action;
