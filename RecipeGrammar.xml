@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<grammar xml:lang="en-US" version="1.0"
+	xmlns="http://www.w3.org/2001/06/grammar" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.w3.org/2001/06/grammar http://www.iristk.net/xml/srgs.xsd" tag-format="semantics/1.0">
+
+  <rule id="yes" scope="public">
+  	<one-of>
+  		<item>yes</item>
+  		<item>okay</item>
+  		<item>sure</item>
+  		<item>all right</item>
+  		<item>yeah</item>  		
+  	</one-of>
+  	<tag>out.yes=1</tag>
+  </rule>
+  
+  <rule id="ready" scope="public">
+  	<one-of>
+  		<item>ready</item>
+  		<item>done</item>
+  		<item>next</item>
+  	</one-of>
+  	<tag>out.ready=1</tag>
+  </rule>
+  
+  <rule id="no" scope="public">
+  	<one-of>
+		<item>no</item>
+		<item>not</item>
+		<item>almost</item>
+		<item>soon</item>
+		<item>wait</item>
+		<item>not ready</item>
+	</one-of>
+	<tag>out.no=1</tag>
+  </rule>
+  
+  <rule id="other" scope="public">
+		<one-of>
+			<item>
+				<one-of>
+					<item>start</item>
+					<item>start timer</item>
+				</one-of>
+				<tag>out.start=1</tag>
+			</item>
+			<item>
+				<one-of>
+					<item>timer</item>
+					<item>time</item>
+				</one-of>
+				<tag>out.timer=1</tag>
+			</item>
+			<item>
+				<one-of>
+					<item>again</item>
+					<item>repeat</item>
+					<item>one more</item>
+				</one-of>
+				<tag>out.repeat=1</tag>
+			</item>
+		<item>
+			<one-of>
+				<item>amount_</item>
+				<item>many_</item>
+				<item>much_</item>
+			</one-of>
+			<tag>out.question="measurement"</tag>
+		</item>
+	 	<item>
+			<one-of>
+				<item>ingredient_</item>
+			</one-of>
+			<tag>out.question="ingredient"</tag>
+		</item>
+ 	 	</one-of>
+ 	 	</rule>
+ 	 
+</grammar>
