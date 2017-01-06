@@ -1,6 +1,7 @@
 Action;Amount;Measurement;Ingredient;Container
-Set a timer for; 10; seconds
 Set the oven to; 200; degrees celcius
+Add, 1, cup, flour
+Add, 1 tablespoon, sugar
 Line a muffin tin with; 12; paper liners
 Add; half; a cup; yoghurt; large bowl
 Add; 3; tablespoons; Vegetable oil; large bowl

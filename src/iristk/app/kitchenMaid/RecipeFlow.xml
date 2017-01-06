@@ -29,7 +29,7 @@
 	<state id="Start" extends="Dialog">
 		<onentry>
 		    <exec>animation.setVisible(true);</exec>
-			<dialog:say>Time to do some cool baking. Are you ready?</dialog:say>
+			<dialog:say>Hello. All right. Do you have everything you need?</dialog:say>
 			<exec>animation.setListen();</exec>
 			<dialog:listen/>
 		</onentry>
