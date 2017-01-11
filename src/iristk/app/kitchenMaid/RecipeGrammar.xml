@@ -46,7 +46,7 @@
 			</item>
 			<item>
 				<one-of>
-					<item>Hey KitchenMaid</item>
+					<item>Hey</item>
 				</one-of>
 				<tag>out.wakeUp=1</tag>
 			</item>
@@ -82,6 +82,7 @@
 	 	<item>
 			<one-of>
 				<item>ingredient_</item>
+				<item>what</item>
 			</one-of>
 			<tag>out.question="ingredient"</tag>
 		</item>
