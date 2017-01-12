@@ -22,7 +22,7 @@ public class AnimateMe extends Frame implements Runnable {
 	int seconds = 0;
 	String sec = "";
 	String min = "";
-	
+	 
 	Graphics g; 
 
 	
